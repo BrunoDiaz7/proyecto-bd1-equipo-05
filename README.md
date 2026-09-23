@@ -1,67 +1,76 @@
 <div align="center">
 
 # 🗄️ Proyecto BD1 — Equipo 05
+# 🖥️ ComproTecno
 
-### Diseño y modelado de una base de datos relacional
+### Sistema de gestión para un comercio de tecnología, computación y electrónica
 
-<p>
-  <img src="https://img.shields.io/badge/UNNE-Base%20de%20Datos%20I-blue" alt="UNNE">
-  <img src="https://img.shields.io/badge/Etapa-02-orange" alt="Etapa 2">
-  <img src="https://img.shields.io/badge/Modelo-Relacional-green" alt="Modelo Relacional">
-  <img src="https://img.shields.io/badge/Estado-En%20desarrollo-yellow" alt="Estado">
-</p>
+<img src="https://img.shields.io/badge/UNNE-Base%20de%20Datos%20I-blue" alt="UNNE - Base de Datos I">
+<img src="https://img.shields.io/badge/Proyecto%20Integrador-2026-orange" alt="Proyecto Integrador 2026">
+<img src="https://img.shields.io/badge/Equipo-05-green" alt="Equipo 05">
+<img src="https://img.shields.io/badge/Estado-En%20desarrollo-yellow" alt="Estado">
 
 </div>
 
 ---
 
-## Objetivos generales
+## <img src="https://img.shields.io/badge/01-PRESENTACIÓN%20Y%20CONTEXTO-2f81f7" height="24"> Presentación y contexto
 
-- Diseñar una base de datos relacional que represente correctamente el dominio seleccionado.
-- Analizar y documentar los requerimientos y reglas de negocio del sistema.
-- Construir el modelo conceptual y transformarlo al modelo relacional.
-- Aplicar técnicas de normalización hasta alcanzar la **Tercera Forma Normal (3FN)**.
-- Garantizar la integridad y consistencia de la información almacenada.
-- Documentar las decisiones de diseño y los avances realizados durante las distintas etapas del proyecto.
+**ComproTecno** es un sistema de gestión diseñado para un comercio especializado en **tecnología, computación y electrónica**.
+
+El proyecto surge a partir de la necesidad de gestionar de manera integrada las operaciones comerciales y técnicas del negocio, contemplando tanto la **venta de productos tecnológicos** como la **prestación de servicios técnicos**.
+
+El modelo de negocio comprende dos áreas principales:
+
+- **Comercialización de productos:** venta minorista de componentes de hardware, como procesadores, placas de video y memorias; periféricos; celulares y computadoras ensambladas.
+- **Prestación de servicios técnicos:** armado de PC a medida, mantenimiento preventivo, diagnóstico y reparación de equipos.
+
+El sistema permitirá registrar y relacionar la información correspondiente a **productos, servicios, clientes, personal, operaciones, métodos de pago y stock**, proporcionando una estructura centralizada para la gestión de las actividades del comercio.
 
 ---
 
-## Documentación
+## <img src="https://img.shields.io/badge/02-PROBLEMÁTICA-ef4444" height="24"> Problemática
 
-La documentación del proyecto se encuentra organizada dentro de la carpeta `docs/`, separada por etapas de desarrollo.
+Uno de los principales problemas identificados en el negocio es la dificultad para mantener un **control preciso y actualizado del stock**.
 
-### Etapa 1 - Requerimientos y dominio del negocio
+Los productos y componentes de hardware pueden tener distintos destinos: pueden ser vendidos directamente a un cliente o utilizados como componentes durante la prestación de un servicio técnico.
 
-En esta etapa se documentó el dominio del problema y las reglas que definen el funcionamiento del sistema.
+La falta de un registro integrado puede generar diferencias entre el **inventario físico y el inventario registrado**, provocando problemas al momento de realizar nuevas ventas o reparaciones.
 
-Actualmente se incluyen:
+### Solución propuesta
 
-- `descripcion_del_caso.md`
-  - Contiene la descripción general del caso y del dominio seleccionado.
+ComproTecno propone centralizar el registro de las operaciones comerciales y técnicas, permitiendo controlar los movimientos de inventario y actualizar las cantidades disponibles como consecuencia de cada operación.
 
-- `reglas-negocio.md`
-  - Contiene las reglas de negocio que determinan el funcionamiento de las operaciones del sistema.
+El sistema conservará además el **precio unitario de los productos y la tarifa de los servicios al momento de realizar una operación**, evitando que modificaciones posteriores afecten el historial de operaciones anteriores.
 
-- `equipo5_etapa_1.docx`
-  - Documento correspondiente a la entrega de la Etapa 1.
+---
 
-### Etapa 2 - Modelado conceptual y lógico
+## <img src="https://img.shields.io/badge/03-ALCANCE-8b5cf6" height="24"> Alcance del sistema
 
-En esta etapa se comenzó con la representación formal de la información y sus relaciones.
+El sistema permitirá gestionar:
 
-Actualmente se incluyen:
+| Área | Funcionalidad |
+|---|---|
+| **Productos** | Registro y clasificación de productos comercializados. |
+| **Categorías** | Organización de los productos según su categoría. |
+| **Marcas** | Asociación de productos con su marca o fabricante. |
+| **Servicios** | Registro de servicios técnicos y sus tarifas. |
+| **Inventario** | Control de stock y movimientos de productos. |
+| **Clientes** | Registro y gestión de los clientes del comercio. |
+| **Personal** | Registro del personal interviniente, diferenciando vendedores y técnicos. |
+| **Operaciones** | Registro de ventas y servicios realizados. |
+| **Métodos de pago** | Registro de los medios de pago utilizados en cada operación. |
+| **Precios** | Conservación del precio aplicado en cada operación histórica. |
 
-- `decisiones-diseño.md`
-  - Documenta las decisiones tomadas durante el diseño del modelo.
+### Fuera del alcance
 
-- `modelo-relacional.md`
-  - Contiene la transformación del modelo conceptual al modelo relacional.
+El sistema no contempla actualmente:
 
-- `der/`
-  - Contiene los archivos correspondientes al **Diagrama Entidad-Relación (DER)**.
-
-- `rel/`
-  - Contiene los archivos correspondientes al **modelo relacional**.
+- Gestión de proveedores.
+- Gestión de compras de mercadería.
+- Gestión de envíos o entregas a domicilio.
+- Seguimiento de envíos.
+- Sistema de reclamos o atención al cliente posterior a la venta.
 
 ---
 

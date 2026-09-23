@@ -2,128 +2,135 @@
 
 ## Esquema de Tablas y Atributos
 
-### Tabla: `PERSONA`
-*Representa la entidad supertipo con los datos generales de los individuos.*
+### Tabla: `Persona`
+*Representa la entidad supertipo con los datos personales compartidos.*
 
 | Campo | Tipo de Dato | Clave | Descripción |
 | :--- | :--- | :--- | :--- |
-| `id_persona` | INT | **PK** |  Identificador único de la persona |
-| `dni` | VARCHAR(20) | | Documento nacional de identidad |
-| `nombre` | VARCHAR(50) | | Nombre(s) |
-| `apellido` | VARCHAR(50) | | Apellido(s) |
-| `telefono` | VARCHAR(25) | | Teléfono de contacto |
+| `id_persona` | INT | **PK** | Identificador único de la persona |
+| `DNI` | INT | | Documento de identidad (Único) |
+| `nombre` | VARCHAR(100) | | Nombre o razón social |
+| `apellido` | VARCHAR(100) | | Apellido |
+| `telefono` | VARCHAR(30) | | Teléfono de contacto |
+| `email` | VARCHAR(150) | | Correo electrónico |
 
 ---
 
-### Tabla: `CLIENTE`
+### Tabla: `Cliente`
 *Subtipo de Persona para los clientes del comercio.*
 
 | Campo | Tipo de Dato | Clave | Descripción |
 | :--- | :--- | :--- | :--- |
-| `id_cliente` | INT | **PK, FK** |  Referencia a `PERSONA(id_persona)` |
+| `id_persona_cliente` | INT | **PK, FK** | Referencia a `Persona(id_persona)` |
+| `fecha_alta` | DATE | | Fecha de registro en el sistema |
 
 ---
 
-### Tabla: `PERSONAL`
-*Subtipo de Persona para los empleados (vendedores y técnicos).*
-
-| Campo | Tipo de Dato | Clave | Descripción |
-| :--- | :--- | :--- |  :--- |
-| `id_personal` | INT | **PK, FK** |  Referencia a `PERSONA(id_persona)` |
-| `legajo` | VARCHAR(20) | |  Código de legajo laboral |
-
----
-
-### Tabla: `CATEGORIA`
-*Clasificación de productos.*
+### Tabla: `Empleado`
+*Subtipo de Persona para el personal (vendedores y técnicos).*
 
 | Campo | Tipo de Dato | Clave | Descripción |
 | :--- | :--- | :--- | :--- |
-| `id_categoria` | INT | **PK** | Identificador de la categoría |
-| `nombre_categoria` | VARCHAR(50) | | Nombre descriptivo |
+| `id_persona_empleado` | INT | **PK, FK** | Referencia a `Persona(id_persona)` |
+| `legajo` | VARCHAR(20) | | Número de legajo interno (Único) |
 
 ---
 
-### Tabla: `MARCA`
-*Marcas/Fabricantes de componentes y productos.*
-
-| Campo | Tipo de Dato | Clave |  Descripción |
-| :--- | :--- | :--- |  :--- |
-| `id_marca` | INT | **PK** |  Identificador de la marca |
-| `nombre_marca` | VARCHAR(50) | | Nombre de la marca/fabricante |
-
----
-
-### Tabla: `PRODUCTO`
-*Catálogo de componentes y artículos a la venta.*
-
-| Campo | Tipo de Dato | Clave | Descripción |
-| :--- | :--- | :--- |  :--- |
-| `id_producto` | INT | **PK** |  Identificador único del producto |
-| `modelo` | VARCHAR(100) | |  Modelo/descripción del ítem |
-| `precio` | DECIMAL(12,2) | |  Precio de lista actual |
-| `stock` | INT | | Cantidad disponible en inventario |
-| `id_categoria` | INT | **FK** |  Referencia a `CATEGORIA(id_categoria)` |
-| `id_marca` | INT | **FK** |  Referencia a `MARCA(id_marca)` |
-
----
-
-### Tabla: `METODO_PAGO`
-*Formas de cobro habilitadas en el negocio.*
-
-| Campo | Tipo de Dato | Clave |  Descripción |
-| :--- | :--- | :--- |  :--- |
-| `id_metodo` | INT | **PK** |  Identificador del método |
-| `nombre` | VARCHAR(50) | | Nombre (Efectivo, Tarjeta, etc.) |
-| `estado` | BOOLEAN | |  Indica si está activo (RN04) |
-| `descuento` | DECIMAL(5,2) | |  Porcentaje de descuento opcional |
-| `recargo` | DECIMAL(5,2) | |  Porcentaje de recargo opcional |
-
----
-
-### Tabla: `OPERACION`
-*Cabecera de ventas y cobros realizados.*
+### Tabla: `Categoria`
+*Clasificación para los conceptos del catálogo.*
 
 | Campo | Tipo de Dato | Clave | Descripción |
 | :--- | :--- | :--- | :--- |
-| `id_operacion` | INT | **PK** | Identificador de la operación |
-| `fecha` | DATE | | Fecha de la transacción |
-| `hora` | TIME | | Hora de la transacción |
-| `monto` | DECIMAL(12,2) | |  Importe total cobrado |
-| `tipo_comprobante` | VARCHAR(20) | |  Tipo de comprobante |
-| `numero_comprobante` | VARCHAR(30) | |  N° fiscal/comprobante |
-| `id_metodo` | INT | **FK** |  Referencia a `METODO_PAGO(id_metodo)` |
-| `id_cliente` | INT | **FK** |  Referencia a `CLIENTE(id_cliente)` |
-| `id_personal` | INT | **FK** |  Referencia a `PERSONAL(id_personal)` (Vendedor) |
+| `id_categoria` | INT | **PK** | Identificador único de la categoría |
+| `nombre_categoria` | VARCHAR(100) | | Nombre descriptivo de la categoría |
 
 ---
 
-### Tabla: `ORDEN_REPARACION`
-*Registro de ingresos de equipos a servicio técnico.*
+### Tabla: `Marca`
+*Marcas y fabricantes de los productos físicos.*
 
 | Campo | Tipo de Dato | Clave | Descripción |
-| :--- | :--- | :--- |  :--- |
-| `id_orden` | INT | **PK**  | N° de orden de reparación |
-| `fecha_recepcion` | DATETIME |   | Fecha y hora de ingreso |
-| `falla` | TEXT | |  Falla declarada por el cliente |
-| `descripcion` | TEXT | | Diagnóstico/observaciones |
-| `tipo_servicio` | VARCHAR(50) | |  Tipo de trabajo técnico |
-| `estado` | VARCHAR(30) | |  Estado actual del servicio |
-| `id_cliente` | INT | **FK** |  Referencia a `CLIENTE(id_cliente)` |
-| `id_personal` | INT | **FK** | Referencia a `PERSONAL(id_personal)` (Técnico) |
+| :--- | :--- | :--- | :--- |
+| `id_marca` | INT | **PK** | Identificador único de la marca |
+| `nombre_marca` | VARCHAR(50) | | Nombre de la marca o fabricante |
 
 ---
 
-### Tabla: `MOVIMIENTO_STOCK`
-*Historial de egresos/ingresos de inventario e inmutabilidad de precios.*
+### Tabla: `Catalogo`
+*Supertipo unificado para productos y servicios comercializados.*
 
-| Campo | Tipo de Dato | Clave |  Descripción |
-| :--- | :--- | :--- |  :--- |
-| `id_movimiento` | INT | **PK** |  Identificador del movimiento |
-| `fecha` | DATETIME | | Fecha y hora del registro |
-| `cantidad` | INT | |  Unidades que afectan el stock |
-| `tipo_movimiento` | VARCHAR(30) | | Tipo ('VENTA', 'REPUESTO_SERVICIO', etc.) |
-| `precio_unitario` | DECIMAL(12,2) | | Precio/tarifa cobrada (RN01) |
-| `id_producto` | INT | **FK** |  Referencia a `PRODUCTO(id_producto)` |
-| `id_operacion` | INT | **FK** |  Referencia a `OPERACION(id_operacion)` |
-| `id_orden` | INT | **FK** | Referencia a `ORDEN_REPARACION(id_orden)` |
+| Campo | Tipo de Dato | Clave | Descripción |
+| :--- | :--- | :--- | :--- |
+| `id_catalogo` | INT | **PK** | Identificador único del concepto |
+| `codigo` | VARCHAR(50) | | Código o SKU del concepto (Único) |
+| `nombre` | VARCHAR(150) | | Nombre comercial |
+| `descripcion` | VARCHAR(250) | | Descripción extendida o especificación |
+| `precio` | DECIMAL(12,2) | | Precio base de lista |
+| `tipo` | VARCHAR(20) | | Indica el tipo ('PRODUCTO' o 'SERVICIO') |
+| `activo` | INT | | Estado (`1` = Activo, `0` = Inactivo) |
+| `id_categoria` | INT | **FK** | Referencia a `Categoria(id_categoria)` |
+
+---
+
+### Tabla: `Producto`
+*Subtipo de Catálogo para componentes y artículos físicos con inventario.*
+
+| Campo | Tipo de Dato | Clave | Descripción |
+| :--- | :--- | :--- | :--- |
+| `id_catalogo_productos` | INT | **PK, FK** | Referencia a `Catalogo(id_catalogo)` |
+| `stock_actual` | INT | | Cantidad disponible en stock |
+| `stock_minimo` | INT | | Umbral mínimo para reposición |
+| `id_marca` | INT | **FK** | Referencia a `Marca(id_marca)` |
+
+---
+
+### Tabla: `Servicios`
+*Subtipo de Catálogo para prestaciones de mano de obra y taller técnico.*
+
+| Campo | Tipo de Dato | Clave | Descripción |
+| :--- | :--- | :--- | :--- |
+| `id_catalogo_servicios` | INT | **PK, FK** | Referencia a `Catalogo(id_catalogo)` |
+| `dias_garantia` | INT | | Cobertura en días post-servicio |
+| `tiempo_estimado_horas` | DECIMAL(4,2) | | Estimación de tiempo de trabajo |
+
+---
+
+### Tabla: `Metodo_Pago`
+*Formas de cobro habilitadas con políticas de recargo/descuento.*
+
+| Campo | Tipo de Dato | Clave | Descripción |
+| :--- | :--- | :--- | :--- |
+| `id_metodo_pago` | INT | **PK** | Identificador único del método de pago |
+| `nombre_tipo` | VARCHAR(50) | | Nombre (Efectivo, Transferencia, etc.) |
+| `recargo` | DECIMAL(5,2) | | Porcentaje de recargo aplicado |
+| `descuento` | DECIMAL(5,2) | | Porcentaje de descuento aplicado |
+| `activo` | INT | | Estado (`1` = Habilitado, `0` = Deshabilitado) |
+
+---
+
+### Tabla: `Factura`
+*Cabecera de las ventas y transacciones cobradas.*
+
+| Campo | Tipo de Dato | Clave | Descripción |
+| :--- | :--- | :--- | :--- |
+| `id_factura` | INT | **PK** | Número o identificador del comprobante |
+| `fecha_hora` | DATETIME | | Fecha y hora de emisión |
+| `monto_subtotal` | DECIMAL(12,2) | | Suma directa de las líneas de detalle |
+| `monto_ajuste` | DECIMAL(12,2) | | Descuento (-) o recargo (+) aplicado |
+| `monto_final` | DECIMAL(12,2) | | Total definitivo cobrado |
+| `id_metodo_pago` | INT | **FK** | Referencia a `Metodo_Pago(id_metodo_pago)` |
+| `id_persona_empleado` | INT | **FK** | Referencia a `Empleado(id_persona_empleado)` |
+| `id_persona_cliente` | INT | **FK** | Referencia a `Cliente(id_persona_cliente)` |
+
+---
+
+### Tabla: `Detalle_Factura`
+*Líneas de renglones del comprobante con inmutabilidad de precios.*
+
+| Campo | Tipo de Dato | Clave | Descripción |
+| :--- | :--- | :--- | :--- |
+| `id_detalle_factura` | INT | **PK** | Identificador del renglón |
+| `cantidad` | INT | | Cantidad de unidades vendidas |
+| `historico_precio_uni` | DECIMAL(12,2) | | Precio cobrado al momento de la venta |
+| `id_factura` | INT | **FK** | Referencia a `Factura(id_factura)` |
+| `id_catalogo` | INT | **FK** | Referencia a `Catalogo(id_catalogo)` |

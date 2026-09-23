@@ -62,34 +62,97 @@ El sistema permitirá gestionar:
 | **Métodos de pago** | Registro de los medios de pago utilizados en cada operación. |
 | **Precios** | Conservación del precio aplicado en cada operación histórica. |
 
-### Fuera del alcance
+--
 
-El sistema no contempla actualmente:
+## <img src="https://img.shields.io/badge/04-OBJETIVOS%20GENERALES-10b981" height="24"> Objetivos generales
 
-- Gestión de proveedores.
-- Gestión de compras de mercadería.
-- Gestión de envíos o entregas a domicilio.
-- Seguimiento de envíos.
-- Sistema de reclamos o atención al cliente posterior a la venta.
+1. **Diseñar una base de datos relacional** que represente adecuadamente el funcionamiento de ComproTecno.
+
+2. **Modelar el dominio del negocio**, identificando las entidades, atributos, relaciones y restricciones necesarias.
+
+3. **Definir las reglas de negocio** que regulan las operaciones comerciales y técnicas del sistema.
+
+4. **Construir el modelo conceptual** mediante un Diagrama Entidad-Relación (DER), utilizando las entidades, relaciones y cardinalidades correspondientes.
+
+5. **Transformar el modelo conceptual al modelo relacional**, definiendo correctamente las claves primarias y foráneas.
+
+6. **Normalizar el esquema hasta la Tercera Forma Normal (3FN)**, reduciendo redundancias y evitando dependencias funcionales incorrectas.
+
+7. **Garantizar la integridad y consistencia de los datos**, estableciendo relaciones y restricciones adecuadas.
+
+8. **Documentar las decisiones de diseño** tomadas durante las distintas etapas del desarrollo.
+
+9. **Mantener un repositorio organizado**, que permita seguir la evolución del proyecto y consultar los diferentes entregables.
 
 ---
+## <img src="https://img.shields.io/badge/05-REGLAS%20DE%20NEGOCIO-f59e0b" height="24"> Reglas de negocio principales
 
-## Estructura del repositorio
+El funcionamiento de ComproTecno se encuentra definido mediante un conjunto de reglas de negocio.
+
+Entre las principales se encuentran:
+
+- **Historial e inmutabilidad de precios:** cada línea de una operación conserva el precio aplicado al momento de realizarla.
+- **Control de stock:** un producto solo puede venderse o utilizarse en un servicio si existe stock suficiente.
+- **Registro de clientes:** toda operación debe estar asociada a un cliente previamente registrado.
+- **Métodos de pago:** toda operación que implique un cobro debe utilizar un método de pago habilitado.
+- **Personal interviniente:** las operaciones deben identificar al personal responsable correspondiente.
+- **Clasificación de productos:** cada producto pertenece a una única categoría y está asociado a una marca o fabricante.
+- **Identificación única:** cada producto posee un identificador único.
+- **Integridad de las operaciones:** las operaciones deben registrar la información necesaria para representar correctamente la transacción.
+- **Registro de servicios:** cada servicio técnico debe estar asociado a un cliente y a un técnico responsable.
+
+La definición completa de las reglas se encuentra en:
+
+[`docs/etapa-01/reglas-negocio.md`](docs/etapa-01/reglas-negocio.md)
+
+---
+## <img src="https://img.shields.io/badge/06-DOCUMENTACIÓN-0ea5e9" height="24"> Documentación
+
+La documentación se encuentra organizada dentro de la carpeta [`docs/`](docs/), separada de acuerdo con las etapas del proyecto.
+
+### Etapa 01 — Requerimientos y dominio del negocio
+
+Esta etapa comprende el análisis inicial del problema, la descripción del caso, el alcance y las reglas que definen el funcionamiento de ComproTecno.
+
+| Documento | Descripción |
+|---|---|
+| [`descripcion_del_caso.md`](docs/etapa-01/descripcion_del_caso.md) | Descripción del caso, modelo de negocio, alcance, problemática y solución propuesta. |
+| [`reglas-negocio.md`](docs/etapa-01/reglas-negocio.md) | Definición de las reglas de negocio que rigen el funcionamiento del sistema. |
+| [`equipo5_etapa_1.docx`](docs/etapa-01/equipo5_etapa_1.docx) | Documento correspondiente a la entrega de la Etapa 01. |
+
+### Etapa 02 — Modelado conceptual y lógico
+
+Esta etapa comprende la representación conceptual del sistema y su transformación hacia el modelo relacional.
+
+| Documento | Descripción |
+|---|---|
+| [`decisiones-diseño.md`](docs/etapa-2/decisiones-diseño.md) | Registro y justificación de las decisiones tomadas durante el diseño del modelo. |
+| [`modelo-relacional.md`](docs/etapa-2/modelo-relacional.md) | Desarrollo del modelo relacional a partir del modelo conceptual. |
+| [`der/`](docs/etapa-2/der/) | Recursos correspondientes al Diagrama Entidad-Relación. |
+| [`rel/`](docs/etapa-2/rel/) | Recursos correspondientes al modelo relacional. |
+
+---
+## <img src="https://img.shields.io/badge/07-ESTRUCTURA%20DEL%20REPOSITORIO-64748b" height="24"> Estructura del repositorio
 
 ```text
 proyecto-bd1-equipo-05/
 │
-├── docs/
+├── 📁 docs/
 │   │
-│   ├── etapa-01/
-│   │   ├── descripcion_del_caso.md
-│   │   ├── equipo5_etapa_1.docx
-│   │   └── reglas-negocio.md
+│   ├── 📁 etapa-01/
+│   │   ├── 📄 descripcion_del_caso.md
+│   │   ├── 📄 equipo5_etapa_1.docx
+│   │   └── 📄 reglas-negocio.md
 │   │
-│   └── etapa-2/
-│       ├── der/
-│       ├── rel/
-│       ├── decisiones-diseño.md
-│       └── modelo-relacional.md
+│   └── 📁 etapa-2/
+│       │
+│       ├── 📁 der/
+│       │   └── ...
+│       │
+│       ├── 📁 rel/
+│       │   └── ...
+│       │
+│       ├── 📄 decisiones-diseño.md
+│       └── 📄 modelo-relacional.md
 │
-└── README.md
+└── 📄 README.md

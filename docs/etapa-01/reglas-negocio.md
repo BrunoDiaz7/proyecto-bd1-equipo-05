@@ -24,8 +24,8 @@ Cada producto deberá poseer un identificador único dentro del sistema.
 ### RN08 - Integridad de las Operaciones
 Una operación deberá registrarse de forma completa, incluyendo al menos el cliente, fecha, productos y/o servicios involucrados, método de pago y el personal interviniente.
 
-### RN09 - Registro de Servicios
-Cada servicio técnico realizado deberá estar asociado a un cliente y a un técnico responsable. Cuando durante la prestación del servicio se utilicen productos o componentes del inventario, estos deberán registrarse en la operación para permitir el control del stock.
+### RN09 - Estado del catálogo
+Los productos y servicios deberán poder identificarse como activos o inactivos, de manera que los elementos inactivos no puedan utilizarse en nuevas operaciones, hasta que el mismo sea activado nuevamente.
 
 ### RN10 - Roles de personal.
 Cada empleado del negocio puede desempeñar tareas tanto de ventas como de servicio técnico y asesoría.

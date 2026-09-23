@@ -1,16 +1,17 @@
-# Proyecto BD1 - Equipo 05
+<div align="center">
 
-## ComproTecno
+# 🗄️ Proyecto BD1 — Equipo 05
 
-### Presentación del proyecto
+### Diseño y modelado de una base de datos relacional
 
-Este proyecto corresponde al desarrollo de una base de datos relacional para la asignatura **Base de Datos 1**, realizado por el **Equipo 05**.
+<p>
+  <img src="https://img.shields.io/badge/UNNE-Base%20de%20Datos%20I-blue" alt="UNNE">
+  <img src="https://img.shields.io/badge/Etapa-02-orange" alt="Etapa 2">
+  <img src="https://img.shields.io/badge/Modelo-Relacional-green" alt="Modelo Relacional">
+  <img src="https://img.shields.io/badge/Estado-En%20desarrollo-yellow" alt="Estado">
+</p>
 
-El objetivo central del proyecto es diseñar, normalizar e implementar una base de datos que permita representar y gestionar el ciclo de operaciones de venta de productos o servicios dentro de un dominio de negocio determinado.
-
-La solución busca organizar la información de manera estructurada, garantizando la **integridad referencial**, la **consistencia de los datos** y evitando la **redundancia innecesaria de información**.
-
-El desarrollo del proyecto se realiza de forma progresiva, comenzando por el análisis del dominio y los requerimientos del sistema, para luego avanzar hacia el modelado conceptual, el modelo relacional, la normalización y, posteriormente, la implementación de la base de datos.
+</div>
 
 ---
 

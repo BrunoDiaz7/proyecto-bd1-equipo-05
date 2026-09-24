@@ -2,85 +2,71 @@
 
 Este documento detalla las decisiones de diseño aplicadas en el modelo conceptual de base de datos para el comercio de tecnología, computación y servicios técnicos. Las decisiones responden a las necesidades del alcance y aseguran el cumplimiento de todas las Reglas de Negocio planteadas.
 
----
+### 1. Entidad Supertipo: Persona y Subtipos (Cliente, Personal)
 
-## 1. Entidad Supertipo: `Persona` y Subtipos (`Cliente`, `Personal`)
+**Decisión de Diseño**
+Se aplicó un patrón de jerarquía/especialización con disyunción restringida (d) entre la entidad supertipo Persona y sus subtipos Cliente y Personal.
+*   **Atributos Generales (Persona):** id_persona, dni, nombre, apellido, telefono, email y direccion.
+*   **Cliente:** Subtipo enfocado en transacciones comerciales, incorpora el atributo propio cuit_cuil.
+*   **Personal:** Subtipo que engloba a los empleados del comercio, con su atributo nro_legajo.
 
-### Decisión de Diseño
-Se aplicó un patrón de jerarquía/especialización con **disyunción restringida (d)** entre la entidad supertipo `Persona` y sus subtipos `Cliente` y `Personal`.
+**Justificación Técnica y Reglas de Negocio**
+*   **Polivalencia del Personal (RN05):** Se optó por mantener a Personal como un único subtipo unificado. El rol del empleado queda definido dinámicamente al intervenir en el sistema mediante la relación *emite* hacia la entidad *Factura*.
+*   **Registro Obligatorio (RN03):** Permite vincular de forma unívoca a los clientes a través de la relación *recibe* con *Factura*, sin duplicar datos personales en las operaciones.
 
-* **Atributos Generales (`Persona`):** `dni`, `nombre_completo` (compuesto por `nombre` y `apellido`) y `telefono`.
-* **`Cliente`:** Subtipo de persona enfocado en las transacciones comerciales y servicios.
-* **`Personal`:** Subtipo de persona que engloba a los empleados del comercio.
+### 2. Entidad: Factura
 
-### Justificación Técnica y Reglas de Negocio
-* **Polivalencia del Personal (RN05):** Se optó por mantener a `Personal` como un único subtipo unificado en lugar de dividirlo rígidamente en "Vendedor" y "Técnico". Dado que en un comercio especializado de tecnología los empleados poseen conocimientos técnicos y comerciales, el rol que desempeñan se define dinámicamente según el proceso en el que intervienen: actúan como asesores/vendedores en la relación `atiende` con `Operacion` y como técnicos en la relación `recibe` con `Orden_reparacion`.
-* **Registro Obligatorio (RN03):** Permite vincular de forma unívoca a los clientes en cada operación realizada sin duplicar atributos personales.
+**Decisión de Diseño**
+Factura representa el evento transaccional central del negocio, reemplazando conceptos abstractos por un documento concreto.
+*   **Atributos:** numero_factura (PK), fecha_emision, monto_total, tipo_comprobante y estado.
 
----
+**Justificación Técnica y Reglas de Negocio**
+*   **Unificación Transaccional:** Se consolidan las ventas comerciales y cobros de servicios bajo una misma entidad. Los atributos garantizan la validez legal y el estado del cobro.
+*   **Integridad Transaccional (RN08):** La entidad actúa como nodo central que conecta obligatoriamente al cliente (*recibe*), al personal responsable (*emite*), al método de cobro (*utiliza* hacia Metodo_pago) y a los ítems involucrados mediante la entidad débil Detalle_factura (*contiene*).
 
-## 2. Entidad: `Operacion`
+### 3. Entidad Supertipo: Catalogo y Subtipos (Producto, Servicio)
 
-### Decisión de Diseño
-`Operacion` representa el evento transaccional central del negocio (venta de productos y/o facturación de servicios prestados).
+**Decisión de Diseño**
+Se incorporó una jerarquía con disyunción (d) para el catálogo comercial, abstrayendo los bienes y servicios en el supertipo.
+*   **Atributos Catalogo:** id_catalogo (PK), descripcion, tipo, precio, nombre, codigo(U) y tipo.
+*   **Servicio:** Subtipo que representa los servicios técnicos prestados (atributo: tarifa_hora).
+*   **Producto:** Subtipo para bienes físicos (atributos: codigo_barras, modelo, stock_actual, stock_minimo).
 
-* **Atributos:** `fecha`, `hora`, `monto`, `tipo_comprobante` y `numero_comprobante`.
+**Justificación Técnica y Reglas de Negocio**
+*   **Abstracción de Comercialización:** Permite que una misma factura pueda incluir tanto productos físicos como servicios de reparación de forma transparente y unificada.
+*   **Clasificación Específica:** El producto mantiene control de inventario y trazabilidad de fabricante (relación *fabricado* con Marca), mientras que ambos subtipos comparten la categorización general mediante la relación *pertenece* a Categoria.
 
-### Justificación Técnica y Reglas de Negocio
-* **Unificación de Facturación:** En lugar de crear entidades redundantes como `Factura` o `Venta`, se unificó la transacción comercial en `Operacion`. Los atributos `tipo_comprobante` y `numero_comprobante` garantizan la validez legal y el registro administrativo del cobro.
-* **Integridad Transaccional (RN08):** La entidad actúa como nodo central que conecta obligatoriamente al cliente (`realiza`), al personal responsable (`atiende`), al método de cobro (`abona_con`) y a los ítems involucrados a través del inventario (`genera` -> `Movimiento_stock`).
+### 4. Entidad Débil: Detalle_Factura
 
----
+**Decisión de Diseño**
+Detalle_Factura actúa como una entidad débil que depende existencialmente de Factura (mediante la relación *contiene*).
+*   **Atributos:** id_detalle (Clave Parcial), cantidad, precio_unitario y subtotal.
 
-## 3. Entidad: `Orden_reparacion`
+**Justificación Técnica y Reglas de Negocio**
+*   **Inmutabilidad de Precios (RN01):** La inclusión del atributo precio_unitario garantiza que el importe cobrado quede congelado en la fecha de la transacción, evitando que un cambio futuro en el precio_actual del Item afecte el histórico.
+*   **Resolución y Trazabilidad (RN02 y RN09):** Resuelve la vinculación entre la factura y los ítems (relación *incluye*), permitiendo asentar exactamente qué cantidad de productos o servicios se vendieron para actualizar el stock o registrar la mano de obra.
 
-### Decisión de Diseño
-Se incorporó la entidad `Orden_reparacion` para gestionar de forma independiente los servicios técnicos de recepción, mantenimiento y reparación de equipos de clientes.
+### 5. Entidades de Catálogo: Categoria y Marca
 
-* **Atributos:** `fecha_recepcion`, `falla`, `descripcion`, `tipo_servicio` y `estado`.
+**Decisión de Diseño**
+Entidades independientes que normalizan y tipifican las características de los ítems.
+*   **Categoria:** id_categoria (PK), nombre_categoria. Se vincula con el supertipo Catalogo.
+*   **Marca:** id_marca (PK), nombre_marca. Se vincula exclusivamente con el subtipo Producto.
 
-### Justificación Técnica y Reglas de Negocio
-* **Separación de Catálogo y Objetos de Servicio:** Un equipo a reparar (ej. una notebook de un cliente) no pertenece al inventario a la venta. Esta entidad abstrae el ingreso al taller con el registro de su `falla` y `estado` (*En diagnóstico*, *En reparación*, *Finalizado*).
-* **Registro de Servicios Técnicos (RN09):** Conecta directamente con la persona que deja el equipo (`pertenece` a `Cliente`), con el empleado a cargo (`recibe` por `Personal`) y con los componentes utilizados del inventario mediante la relación `genera` hacia `Movimiento_stock`.
+**Justificación Técnica y Reglas de Negocio**
+*   **Identificación y Clasificación (RN06 y RN07):** Evita la redundancia de datos. Al relacionar Categoria directamente con Catalogo, se permite que tanto los servicios como los productos estén organizados lógicamente, mientras que la Marca queda restringida únicamente a los bienes físicos (hardware).
 
----
+### 6. Entidad: Metodo_pago
 
-## 4. Entidad Intermedia y Auditoría: `Movimiento_stock`
-
-### Decisión de Diseño
-`Movimiento_stock` actúa como el registro transaccional detallado para la gestión e historial del inventario.
-
-* **Atributos:** `fecha`, `cantidad`, `tipo_movimiento` y `precio_unitario`.
-
-### Justificación Técnica y Reglas de Negocio
-* **Inmutabilidad de Precios (RN01):** La inclusión del atributo `precio_unitario` en esta entidad garantiza que el importe cobrado o aplicado en la fecha de la transacción quede congelado e inmutable, evitando variaciones históricas si el valor del producto cambia a futuro en el catálogo.
-* **Control de Inventario y Trazabilidad (RN02 y RN09):** Permite registrar las salidas de stock por venta directa (`genera` desde `Operacion`), los egresos de repuestos/componentes consumidos durante un servicio técnico (`genera` desde `Orden_reparacion`), así como eventuales ingresos por compras a proveedores mediante el atributo `tipo_movimiento`.
-
----
-
-## 5. Entidad: `Producto`
-
-### Decisión de Diseño
-Representa el catálogo de componentes de hardware, periféricos, equipos ensamblados y productos disponibles para la venta o uso en reparaciones.
-
-* **Atributos:** `modelo`, `precio`, `stock` y `categoria`.
-
-### Justificación Técnica y Reglas de Negocio
-* **Identificación y Clasificación (RN06 y RN07):** Mantiene el estado del stock disponible (`stock`) para la validación previa de ventas y consumo de componentes (RN02). Se categoriza según el tipo de hardware comercializado.
-* **Trazabilidad de Stock:** Se vincula con `Movimiento_stock` mediante la relación `afecta` con cardinalidad `(1,1)` a `(0,N)`, garantizando que cada cambio de stock quede asentado en una línea de movimiento.
-
----
-
-## 6. Entidad: `Metodo_pago`
-
-### Decisión de Diseño
+**Decisión de Diseño**
 Entidad de soporte que parametriza las formas de pago habilitadas en el comercio.
+*   **Atributos:** nombre, estado, descuento (O) y recargo (O).
 
-* **Atributos:** `nombre`, `estado`, `descuento (O)` y `recargo (O)`.
+**Justificación Técnica y Reglas de Negocio**
+*   **Métodos de Pago Activos (RN04):** El atributo estado permite habilitar o deshabilitar opciones de pago (efectivo, transferencia, tarjeta). Al relacionarse directamente con Factura (relación *utiliza*), garantiza que el cliente pueda seleccionar libremente cualquier medio activo en cada transacción.
+*   **Gestión Financiera:** Incluye atributos opcionales descuento y recargo para soportar políticas comerciales asociadas al método de cobro.
 
-### Justificación Técnica y Reglas de Negocio
-* **Métodos de Pago Activos (RN04):** El atributo `estado` permite habilitar o deshabilitar opciones de pago (efectivo, transferencia, tarjeta). Al relacionarse directamente con `Operacion` (`abona_con`), garantiza que el cliente pueda seleccionar libremente cualquier medio activo en cada transacción.
-* **Gestión Financiera:** Incluye atributos opcionales `descuento` y `recargo` para soportar políticas comerciales asociadas al método de cobro.
+---
 
 # Justificación de Decisiones de Diseño del Modelo Relacional
 

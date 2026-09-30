@@ -13,3 +13,15 @@ CREATE TABLE Persona
 	CONSTRAINT PK_Persona PRIMARY KEY (id_persona),
 	CONSTRAINT UQ_DNI_Persona UNIQUE (DNI)
 );
+
+CREATE TABLE Cliente
+(
+	id_persona_cliente INT,
+	fecha_alta DATE NOT NULL CONSTRAINT DF_Cliente_Alta DEFAULT GETDATE(),
+
+	CONSTRAINT PK_Cliente PRIMARY KEY (id_persona_cliente),
+	CONSTRAINT FK_Persona_Cliente FOREIGN KEY (id_persona_cliente) REFERENCES Persona (id_persona)
+);
+
+
+

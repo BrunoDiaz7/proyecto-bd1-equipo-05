@@ -23,5 +23,13 @@ CREATE TABLE Cliente
 	CONSTRAINT FK_Persona_Cliente FOREIGN KEY (id_persona_cliente) REFERENCES Persona (id_persona)
 );
 
+CREATE TABLE Empleado
+(
+	id_persona_empleado INT,
+	legajo VARCHAR(20) NOT NULL,
 
+	CONSTRAINT PK_Empleado PRIMARY KEY (id_persona_empleado),
+	CONSTRAINT UQ_Empleado_Legajo UNIQUE (legajo),
+	CONSTRAINT FK_Persona_Empleado FOREIGN KEY (id_persona_empleado) REFERENCES Persona (id_persona)
+);
 

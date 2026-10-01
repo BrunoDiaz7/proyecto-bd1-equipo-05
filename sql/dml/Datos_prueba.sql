@@ -5,7 +5,7 @@ USE Proyecto_equipo5;
 
 
 -- 1. POBLADO DE TABLAS SECUNDARIAS (Categorías, Marcas y Métodos de Pago)
-
+--
 
 INSERT INTO Categoria (nombre_categoria) VALUES
 ('Procesadores'),

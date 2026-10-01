@@ -71,3 +71,12 @@ CREATE TABLE Servicio
 	CONSTRAINT CHK_Servicio_Dias_Garantia CHECK (Dias_garantia >= 0),
 	CONSTRAINT CHK_Servicio_Estimado CHECK (tiempo_estimado_horas >= 0.0)
 );
+
+CREATE TABLE Marca
+(
+	id_marca INT IDENTITY(1,1),
+	nombre_marca VARCHAR(50) NOT NULL,
+
+	CONSTRAINT PK_Marca PRIMARY KEY (id_marca),
+	CONSTRAINT UQ_Marca_Nombre UNIQUE (nombre_marca)
+);

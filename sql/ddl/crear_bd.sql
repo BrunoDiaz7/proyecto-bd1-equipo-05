@@ -59,3 +59,15 @@ CREATE TABLE Catalogo
 	CONSTRAINT UQ_Codigo_Catalogo UNIQUE (codigo),
 	CONSTRAINT CHK_Catalogo_Tipo CHECK (tipo IN ('PRODUCTO', 'SERVICIO'))
 );
+
+CREATE TABLE Servicio
+(
+	id_categoria_servicio INT,
+	dias_garantia INT NOT NULL,
+	tiempo_estimado_horas DECIMAL(4,2) NOT NULL,
+
+	CONSTRAINT PK_Servicio PRIMARY KEY (id_categoria_servicio),
+	CONSTRAINT FK_Catalogo_Servicio FOREIGN KEY (id_categoria_servicio) REFERENCES Catalogo (id_catalogo),
+	CONSTRAINT CHK_Servicio_Dias_Garantia CHECK (Dias_garantia >= 0),
+	CONSTRAINT CHK_Servicio_Estimado CHECK (tiempo_estimado_horas >= 0.0)
+);

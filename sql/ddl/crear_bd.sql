@@ -121,3 +121,17 @@ CREATE TABLE Factura
 	CONSTRAINT FK_Factura_Empleado FOREIGN KEY (id_persona_empleado) REFERENCES Empleado (id_persona_empleado),
 	CONSTRAINT FK_Factura_Cliente FOREIGN KEY (id_persona_cliente) REFERENCES Cliente (id_persona_cliente)
 );
+
+CREATE TABLE Detalle_Factura
+(
+	id_detalle_factura INT IDENTITY(1,1),
+	cantidad INT NOT NULL,
+	historico_precio_uni DECIMAL(12,2) NOT NULL,
+	id_factura INT NOT NULL,
+	id_catalogo INT NOT NULL,
+
+	CONSTRAINT PK_Detalle_Factura PRIMARY KEY (id_detalle_factura),
+	CONSTRAINT FK_Detalle_a_Factura FOREIGN KEY (id_factura) REFERENCES Factura (id_factura),
+	CONSTRAINT FK_Detalle_Catalogo FOREIGN KEY (id_catalogo) REFERENCES Catalogo (id_catalogo),
+	CONSTRAINT CHK_Detalle_Cantidad CHECK (cantidad > 0)
+);

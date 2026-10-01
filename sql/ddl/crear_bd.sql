@@ -80,3 +80,15 @@ CREATE TABLE Marca
 	CONSTRAINT PK_Marca PRIMARY KEY (id_marca),
 	CONSTRAINT UQ_Marca_Nombre UNIQUE (nombre_marca)
 );
+
+CREATE TABLE Producto
+(
+	id_catalogo_producto INT,
+	stock_actual INT NOT NULL,
+	stock_minimo INT NOT NULL,
+	id_marca INT NOT NULL,
+
+	CONSTRAINT PK_Producto PRIMARY KEY (id_catalogo_producto),
+	CONSTRAINT FK_Catalogo_Producto FOREIGN KEY (id_catalogo_producto) REFERENCES Catalogo (id_catalogo),
+	CONSTRAINT FK_Producto_Marca FOREIGN KEY (id_marca) REFERENCES Marca (id_marca)
+);

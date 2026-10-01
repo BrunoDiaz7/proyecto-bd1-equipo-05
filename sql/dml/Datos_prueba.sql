@@ -2,8 +2,6 @@ USE Proyecto_equipo5;
 
 
 
-
-
 -- 1. POBLADO DE TABLAS SECUNDARIAS (Categorías, Marcas y Métodos de Pago)
 --
 
@@ -146,4 +144,5 @@ INSERT INTO Detalle_Factura (cantidad, historico_precio_uni, id_factura, id_cata
 (1, 120.00, 9, 9),
 (1, 40.00,  9, 20),
 -- Factura 10: Placa AMD RX 7800 XT
-(1, 530.00, 10, 4);
+(1, 530.00, 10, 5);
+

@@ -41,3 +41,21 @@ CREATE TABLE Categoria
 	CONSTRAINT PK_Categoria PRIMARY KEY (id_categoria),
 	CONSTRAINT UQ_Nombre_Categoria UNIQUE (nombre_categoria)
 );
+
+CREATE TABLE Catalogo
+(
+	id_catalogo INT IDENTITY(1,1),
+	codigo VARCHAR(50) NOT NULL,
+	nombre VARCHAR(150) NOT NULL,
+	descripcion VARCHAR(250)NOT NULL,
+	precio DECIMAL(12,2) NOT NULL,
+	tipo VARCHAR(20)NOT NULL,
+	activo BIT NOT NULL CONSTRAINT DF_Catalogo_Activo DEFAULT 1,
+	id_categoria INT NOT NULL,
+	
+
+	CONSTRAINT PK_Catalogo PRIMARY KEY (id_catalogo),
+	CONSTRAINT FK_Catalogo_Categoria FOREIGN KEY (id_categoria) REFERENCES Categoria (id_categoria),
+	CONSTRAINT UQ_Codigo_Catalogo UNIQUE (codigo),
+	CONSTRAINT CHK_Catalogo_Tipo CHECK (tipo IN ('PRODUCTO', 'SERVICIO'))
+);

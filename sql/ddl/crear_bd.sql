@@ -92,3 +92,15 @@ CREATE TABLE Producto
 	CONSTRAINT FK_Catalogo_Producto FOREIGN KEY (id_catalogo_producto) REFERENCES Catalogo (id_catalogo),
 	CONSTRAINT FK_Producto_Marca FOREIGN KEY (id_marca) REFERENCES Marca (id_marca)
 );
+
+CREATE TABLE Metodo_Pago
+(
+	id_metodo_pago INT IDENTITY(1,1),
+	nombre_tipo VARCHAR(50) NOT NULL,
+	recargo DECIMAL(5,2) NULL,
+	descuento DECIMAL(5,2) NULL,
+	activo BIT NOT NULL CONSTRAINT DF_Metodo_Activo DEFAULT 1,
+
+	CONSTRAINT PK_Metodo_Pago PRIMARY KEY (id_metodo_pago),
+	CONSTRAINT UQ_Metodo_Nombre UNIQUE (nombre_tipo),
+);

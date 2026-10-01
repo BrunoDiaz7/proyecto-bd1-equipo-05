@@ -92,3 +92,46 @@ CREATE TABLE Producto
 	CONSTRAINT FK_Catalogo_Producto FOREIGN KEY (id_catalogo_producto) REFERENCES Catalogo (id_catalogo),
 	CONSTRAINT FK_Producto_Marca FOREIGN KEY (id_marca) REFERENCES Marca (id_marca)
 );
+
+CREATE TABLE Metodo_Pago
+(
+	id_metodo_pago INT IDENTITY(1,1),
+	nombre_tipo VARCHAR(50) NOT NULL,
+	recargo DECIMAL(5,2) NULL,
+	descuento DECIMAL(5,2) NULL,
+	activo BIT NOT NULL CONSTRAINT DF_Metodo_Activo DEFAULT 1,
+
+	CONSTRAINT PK_Metodo_Pago PRIMARY KEY (id_metodo_pago),
+	CONSTRAINT UQ_Metodo_Nombre UNIQUE (nombre_tipo),
+);
+
+CREATE TABLE Factura
+(
+	id_factura INT IDENTITY(1,1),
+	fecha_hora DATETIME NOT NULL,
+	monto_subtotal DECIMAL(12,2) NOT NULL,
+	monto_ajuste DECIMAL(12,2) NOT NULL,
+	monto_final DECIMAL(12,2) NOT NULL,
+	id_metodo_pago INT NOT NULL,
+	id_persona_empleado INT NOT NULL,
+	id_persona_cliente INT NOT NULL,
+
+	CONSTRAINT PK_Factura PRIMARY KEY (id_factura),
+	CONSTRAINT FK_Factura_Pago FOREIGN KEY (id_metodo_pago) REFERENCES Metodo_Pago (id_metodo_pago),
+	CONSTRAINT FK_Factura_Empleado FOREIGN KEY (id_persona_empleado) REFERENCES Empleado (id_persona_empleado),
+	CONSTRAINT FK_Factura_Cliente FOREIGN KEY (id_persona_cliente) REFERENCES Cliente (id_persona_cliente)
+);
+
+CREATE TABLE Detalle_Factura
+(
+	id_detalle_factura INT IDENTITY(1,1),
+	cantidad INT NOT NULL,
+	historico_precio_uni DECIMAL(12,2) NOT NULL,
+	id_factura INT NOT NULL,
+	id_catalogo INT NOT NULL,
+
+	CONSTRAINT PK_Detalle_Factura PRIMARY KEY (id_detalle_factura),
+	CONSTRAINT FK_Detalle_a_Factura FOREIGN KEY (id_factura) REFERENCES Factura (id_factura),
+	CONSTRAINT FK_Detalle_Catalogo FOREIGN KEY (id_catalogo) REFERENCES Catalogo (id_catalogo),
+	CONSTRAINT CHK_Detalle_Cantidad CHECK (cantidad > 0)
+);

@@ -33,3 +33,11 @@ CREATE TABLE Empleado
 	CONSTRAINT FK_Persona_Empleado FOREIGN KEY (id_persona_empleado) REFERENCES Persona (id_persona)
 );
 
+CREATE TABLE Categoria
+(
+	id_categoria INT IDENTITY(1,1),
+	nombre_categoria VARCHAR(100) NOT NULL,
+
+	CONSTRAINT PK_Categoria PRIMARY KEY (id_categoria),
+	CONSTRAINT UQ_Nombre_Categoria UNIQUE (nombre_categoria)
+);

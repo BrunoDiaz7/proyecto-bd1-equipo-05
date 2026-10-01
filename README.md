@@ -131,6 +131,18 @@ Esta etapa comprende la representación conceptual del sistema y su transformaci
 | [`der/`](docs/etapa-2/der/) | Recursos correspondientes al Diagrama Entidad-Relación. |
 | [`rel/`](docs/etapa-2/rel/) | Recursos correspondientes al modelo relacional. |
 
+### Etapa 03 — Implementación física
+
+Esta etapa corresponde a la implementación física de la base de datos mediante scripts SQL.
+
+De acuerdo con los requerimientos del proyecto, comprende la creación de las tablas, la definición de claves y restricciones de integridad, y el posterior poblado de la base de datos con registros de prueba coherentes.
+
+| Documento | Descripción |
+|---|---|
+| [`implementacion.md`](docs/etapa-3/implementacion.md) | Documentación correspondiente al proceso de implementación física de la base de datos. |
+| [`reestricciones-integridad.md`](docs/etapa-3/reestricciones-integridad.md) | Documentación de las restricciones y mecanismos de integridad definidos para la base de datos. |
+| [`pruebas-validacion.md`](docs/etapa-3/pruebas-validacion.md) | Documento destinado al registro de las pruebas y validaciones realizadas sobre la implementación. |
+
 ---
 ## <img src="https://img.shields.io/badge/07-ESTRUCTURA%20DEL%20REPOSITORIO-64748b" height="24"> Estructura del repositorio
 
@@ -144,15 +156,19 @@ proyecto-bd1-equipo-05/
 │   │   ├── 📄 equipo5_etapa_1.docx
 │   │   └── 📄 reglas-negocio.md
 │   │
-│   └── 📁 etapa-2/
-│       │
-│       ├── 📁 der/
-│       │   └── ...
-│       │
-│       ├── 📁 rel/
-│       │   └── ...
-│       │
-│       ├── 📄 decisiones-diseño.md
-│       └── 📄 modelo-relacional.md
+│   ├── 📁 etapa-2/
+│   │   ├── 📁 der/
+│   │   │   └── 🗂️der.png
+│   │   │
+│   │   ├── 📁 rel/
+│   │   │   └── 🗂️rel_normalizado.png
+│   │   │
+│   │   ├── 📄 decisiones-diseño.md
+│   │   └── 📄 modelo-relacional.md
+│   │
+│   └── 📁 etapa-3/
+│       ├── 📄 implementacion.md
+│       ├── 📄 restricciones-integridad.md
+│       └── 📄 pruebas-validacion.md
 │
 └── 📄 README.md

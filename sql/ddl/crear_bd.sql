@@ -33,3 +33,105 @@ CREATE TABLE Empleado
 	CONSTRAINT FK_Persona_Empleado FOREIGN KEY (id_persona_empleado) REFERENCES Persona (id_persona)
 );
 
+CREATE TABLE Categoria
+(
+	id_categoria INT IDENTITY(1,1),
+	nombre_categoria VARCHAR(100) NOT NULL,
+
+	CONSTRAINT PK_Categoria PRIMARY KEY (id_categoria),
+	CONSTRAINT UQ_Nombre_Categoria UNIQUE (nombre_categoria)
+);
+
+CREATE TABLE Catalogo
+(
+	id_catalogo INT IDENTITY(1,1),
+	codigo VARCHAR(50) NOT NULL,
+	nombre VARCHAR(150) NOT NULL,
+	descripcion VARCHAR(250)NOT NULL,
+	precio DECIMAL(12,2) NOT NULL,
+	tipo VARCHAR(20)NOT NULL,
+	activo BIT NOT NULL CONSTRAINT DF_Catalogo_Activo DEFAULT 1,
+	id_categoria INT NOT NULL,
+	
+
+	CONSTRAINT PK_Catalogo PRIMARY KEY (id_catalogo),
+	CONSTRAINT FK_Catalogo_Categoria FOREIGN KEY (id_categoria) REFERENCES Categoria (id_categoria),
+	CONSTRAINT UQ_Codigo_Catalogo UNIQUE (codigo),
+	CONSTRAINT CHK_Catalogo_Tipo CHECK (tipo IN ('PRODUCTO', 'SERVICIO'))
+);
+
+CREATE TABLE Servicio
+(
+	id_categoria_servicio INT,
+	dias_garantia INT NOT NULL,
+	tiempo_estimado_horas DECIMAL(4,2) NOT NULL,
+
+	CONSTRAINT PK_Servicio PRIMARY KEY (id_categoria_servicio),
+	CONSTRAINT FK_Catalogo_Servicio FOREIGN KEY (id_categoria_servicio) REFERENCES Catalogo (id_catalogo),
+	CONSTRAINT CHK_Servicio_Dias_Garantia CHECK (Dias_garantia >= 0),
+	CONSTRAINT CHK_Servicio_Estimado CHECK (tiempo_estimado_horas >= 0.0)
+);
+
+CREATE TABLE Marca
+(
+	id_marca INT IDENTITY(1,1),
+	nombre_marca VARCHAR(50) NOT NULL,
+
+	CONSTRAINT PK_Marca PRIMARY KEY (id_marca),
+	CONSTRAINT UQ_Marca_Nombre UNIQUE (nombre_marca)
+);
+
+CREATE TABLE Producto
+(
+	id_catalogo_producto INT,
+	stock_actual INT NOT NULL,
+	stock_minimo INT NOT NULL,
+	id_marca INT NOT NULL,
+
+	CONSTRAINT PK_Producto PRIMARY KEY (id_catalogo_producto),
+	CONSTRAINT FK_Catalogo_Producto FOREIGN KEY (id_catalogo_producto) REFERENCES Catalogo (id_catalogo),
+	CONSTRAINT FK_Producto_Marca FOREIGN KEY (id_marca) REFERENCES Marca (id_marca)
+);
+
+CREATE TABLE Metodo_Pago
+(
+	id_metodo_pago INT IDENTITY(1,1),
+	nombre_tipo VARCHAR(50) NOT NULL,
+	recargo DECIMAL(5,2) NULL,
+	descuento DECIMAL(5,2) NULL,
+	activo BIT NOT NULL CONSTRAINT DF_Metodo_Activo DEFAULT 1,
+
+	CONSTRAINT PK_Metodo_Pago PRIMARY KEY (id_metodo_pago),
+	CONSTRAINT UQ_Metodo_Nombre UNIQUE (nombre_tipo),
+);
+
+CREATE TABLE Factura
+(
+	id_factura INT IDENTITY(1,1),
+	fecha_hora DATETIME NOT NULL,
+	monto_subtotal DECIMAL(12,2) NOT NULL,
+	monto_ajuste DECIMAL(12,2) NOT NULL,
+	monto_final DECIMAL(12,2) NOT NULL,
+	id_metodo_pago INT NOT NULL,
+	id_persona_empleado INT NOT NULL,
+	id_persona_cliente INT NOT NULL,
+
+	CONSTRAINT PK_Factura PRIMARY KEY (id_factura),
+	CONSTRAINT FK_Factura_Pago FOREIGN KEY (id_metodo_pago) REFERENCES Metodo_Pago (id_metodo_pago),
+	CONSTRAINT FK_Factura_Empleado FOREIGN KEY (id_persona_empleado) REFERENCES Empleado (id_persona_empleado),
+	CONSTRAINT FK_Factura_Cliente FOREIGN KEY (id_persona_cliente) REFERENCES Cliente (id_persona_cliente)
+);
+
+CREATE TABLE Detalle_Factura
+(
+	id_detalle_factura INT IDENTITY(1,1),
+	cantidad INT NOT NULL,
+	historico_precio_uni DECIMAL(12,2) NOT NULL,
+	id_factura INT NOT NULL,
+	id_catalogo INT NOT NULL,
+
+	CONSTRAINT PK_Detalle_Factura PRIMARY KEY (id_detalle_factura),
+	CONSTRAINT FK_Detalle_a_Factura FOREIGN KEY (id_factura) REFERENCES Factura (id_factura),
+	CONSTRAINT FK_Detalle_Catalogo FOREIGN KEY (id_catalogo) REFERENCES Catalogo (id_catalogo),
+	CONSTRAINT CHK_Detalle_Cantidad CHECK (cantidad > 0)
+);

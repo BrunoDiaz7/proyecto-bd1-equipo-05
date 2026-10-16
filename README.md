@@ -139,9 +139,23 @@ De acuerdo con los requerimientos del proyecto, comprende la creación de las ta
 
 | Documento | Descripción |
 |---|---|
-| [`implementacion.md`](docs/etapa-3/implementacion.md) | Documentación correspondiente al proceso de implementación física de la base de datos. |
-| [`reestricciones-integridad.md`](docs/etapa-3/reestricciones-integridad.md) | Documentación de las restricciones y mecanismos de integridad definidos para la base de datos. |
-| [`pruebas-validacion.md`](docs/etapa-3/pruebas-validacion.md) | Documento destinado al registro de las pruebas y validaciones realizadas sobre la implementación. |
+| [`implementacion.md`](docs/etapa-03/implementacion.md) | Documentación correspondiente a la implementación física de la base de datos. |
+| [`restricciones-integridad.md`](docs/etapa-03/restricciones-integridad.md) | Documentación de las restricciones y mecanismos de integridad de la base de datos. |
+| [`pruebas-validacion.md`](docs/etapa-03/pruebas-validacion.md) | Registro de las pruebas y validaciones realizadas sobre la implementación. |
+
+### Etapa 04 — Consultas y casos de uso
+
+Esta etapa se centra en el desarrollo y la validación de consultas SQL destinadas a responder necesidades concretas de información del negocio.
+
+Se contemplan consultas para la generación de comprobantes de venta, la elaboración de reportes agregados y el análisis de información mediante consultas avanzadas.
+
+Los scripts correspondientes se encuentran organizados en la carpeta [`sql/consultas/`](sql/consultas/).
+
+| Script | Descripción |
+|---|---|
+| [`comprobante_venta.sql`](sql/consultas/comprobante_venta.sql) | Consolida el encabezado y el detalle de una venta, calculando los subtotales por renglón y el total acumulado del comprobante. |
+| [`informe_ventas.sql`](sql/consultas/informe_ventas.sql) | Genera un reporte agregado de ventas por vendedor o categoría de producto dentro de un rango de fechas. |
+| [`consulta_avanzada.sql`](sql/consultas/consulta_avanzada.sql) | Combina al menos tres tablas mediante `JOIN` y aplica filtros condicionales utilizando `HAVING` o subconsultas. |
 
 ---
 ## <img src="https://img.shields.io/badge/07-ESTRUCTURA%20DEL%20REPOSITORIO-64748b" height="24"> Estructura del repositorio
@@ -150,7 +164,6 @@ De acuerdo con los requerimientos del proyecto, comprende la creación de las ta
 proyecto-bd1-equipo-05/
 │
 ├── 📁 docs/
-│   │
 │   ├── 📁 etapa-01/
 │   │   ├── 📄 descripcion_del_caso.md
 │   │   ├── 📄 equipo5_etapa_1.docx
@@ -159,10 +172,8 @@ proyecto-bd1-equipo-05/
 │   ├── 📁 etapa-2/
 │   │   ├── 📁 der/
 │   │   │   └── 🗂️ der.png
-│   │   │
 │   │   ├── 📁 rel/
 │   │   │   └── 🗂️ rel_normalizado.png
-│   │   │
 │   │   ├── 📄 decisiones-diseño.md
 │   │   └── 📄 modelo-relacional.md
 │   │
@@ -184,6 +195,18 @@ proyecto-bd1-equipo-05/
 │   │
 │   ├── 📁 dml/
 │   │   └── 📄 datos_prueba.sql
+│   │
+│   └── 📁 consultas/
+│       ├── 📄 comprobante_venta.sql
+│       ├── 📄 informe_ventas.sql
+│       └── 📄 consulta_avanzada.sql
+│
+├── 📁 sql/
+│   ├── 📁 ddl/
+│   │   └── 📄 crear_bd.sql
+│   │
+│   ├── 📁 dml/
+│   │   └── 📄 Datos prueba.sql
 │   │
 │   └── 📁 consultas/
 │       ├── 📄 comprobante_venta.sql

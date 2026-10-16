@@ -107,7 +107,7 @@ CREATE TABLE Metodo_Pago
 
 CREATE TABLE Factura
 (
-	id_factura INT IDENTITY(1,1),
+	id_factura INT IDENTITY(1000,1),
 	fecha_hora DATETIME NOT NULL,
 	monto_subtotal DECIMAL(12,2) NOT NULL,
 	monto_ajuste DECIMAL(12,2) NOT NULL,
@@ -124,7 +124,7 @@ CREATE TABLE Factura
 
 CREATE TABLE Detalle_Factura
 (
-	id_detalle_factura INT IDENTITY(1,1),
+	id_detalle_factura INT IDENTITY(100,1),
 	cantidad INT NOT NULL,
 	historico_precio_uni DECIMAL(12,2) NOT NULL,
 	id_factura INT NOT NULL,

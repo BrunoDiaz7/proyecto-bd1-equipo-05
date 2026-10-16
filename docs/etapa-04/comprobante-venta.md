@@ -4,7 +4,7 @@ En esta segunda consulta, nosotros le pedimos a la base de datos que "comprima" 
 
 Acá es donde vemos la plata real. Además de contar cuántas cosas compró el cliente (separando inteligentemente los productos de los servicios), mostramos el subtotal de la compra y le aplicamos los descuentos o recargos correspondientes para llegar a la plata que el cliente efectivamente pagó.
 
-## Resultados de la Ejecución (Facturas 1001 a 1006)
+## Resultados de Ejecución (Facturas 1001 a 1006)
 
 | Num_Comprobante | Fecha_Emision | DNI_Cliente | Cliente | Metodo_Pago | Cantidad_Renglones | Cantidad_Productos | Cantidad_Servicios | Subtotal_Bruto ($) | Descuento_Recargo | Total_Facturado |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |

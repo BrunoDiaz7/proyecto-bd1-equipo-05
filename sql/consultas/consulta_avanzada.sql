@@ -11,7 +11,7 @@ Para lograrlo, le pedimos a la base de datos que agrupe todas las compras de cad
 | DNI | Cliente | Cantidad_Tickets | Productos_Comprados | Servicios_Realizados | Gasto_Total_Acumulado | 
 | ----- | ----- | ----- | ----- | ----- | ----- | 
 | 33777888 | Martínez, Lucas | 1 | 8 | 1 | 16000.00 | 
-| 37777888 | Ruiz, Elena | 1 | 2 | 1 | 2788.80 | 
+| 37777888 | Ruiz, Elena | 1 | 2 | 1 | 2788.80 |   
 | 31222333 | Sosa, Valentina | 1 | 2 | 0 | 2060.00 | 
 | 25111222 | Álvarez, Roberto | 2 | 2 | 0 | 812.40 | 
 | 39111222 | Medina, Camila | 1 | 1 | 0 | 514.10 | 

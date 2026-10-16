@@ -5,6 +5,7 @@ En este documento, detallamos lo que hicimos en el script `informe_ventas.sql`. 
 
 Para lograr esto, armamos dos reportes principales:
 1. **Rendimiento de los vendedores:** Para ver cómo le fue a cada empleado, cuánto facturaron en total y qué perfil de ventas tienen.
+2. **Estadísticas de nuestros productos y servicios:** Para entender qué categorías dejan más ganancias, qué se vende más y a qué precios.
 
 
 ---
@@ -26,5 +27,32 @@ Además, le agregamos una función automática que clasifica a cada empleado en 
 | EMP-005 | 28765432 | Paz, Marcos | 2 | 2 | 0 | 461.40 | 230.70 | Rendimiento Esperado |
 | EMP-006 | 39876543 | Herrera, Sofía | 2 | 1 | 1 | 127.00 | 63.50 | Rendimiento Básico |
 
+
+---
+
+
+## 2. Estadísticas Comerciales por Categoría
+
+Con este segundo reporte quisimos tener una visión completa de todo lo que ofrece nuestro catálogo. Para que sea mucho más fácil de leer, agrupamos y separamos las ventas físicas (como teclados o placas) de los servicios técnicos (como arreglar una PC). 
+
+Lo más importante que logramos acá es mostrar los precios mínimos, máximos y el promedio. De esta forma, podemos ver rápidamente si nuestros clientes están buscando cosas baratas o si están dispuestos a pagar por productos más caros.
+
+### Resultados de la Ejecución
+
+| Tipo_Articulo | Categoria | Facturas_Emitidas | Cantidad_Facturada | Precio_Minimo_Vendido | Precio_Maximo_Vendido | Precio_Promedio | Total_Recaudado |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| PRODUCTO | Periféricos | 4 | 4 | 20.00 | 120.00 | 70.00 | 280.00 |
+| PRODUCTO | Memoria RAM | 2 | 3 | 55.00 | 130.00 | 92.50 | 315.00 |
+| PRODUCTO | Procesadores | 3 | 3 | 150.00 | 450.00 | 350.00 | 1050.00 |
+| PRODUCTO | Refrigeración | 2 | 2 | 85.00 | 85.00 | 85.00 | 170.00 |
+| PRODUCTO | Gabinetes | 2 | 2 | 105.00 | 105.00 | 105.00 | 210.00 |
+| PRODUCTO | Tarjetas de Video | 2 | 2 | 320.00 | 530.00 | 425.00 | 850.00 |
+| PRODUCTO | Placas Madre | 2 | 2 | 110.00 | 380.00 | 245.00 | 490.00 |
+| PRODUCTO | Almacenamiento | 1 | 1 | 180.00 | 180.00 | 180.00 | 180.00 |
+| PRODUCTO | Conectividad y Redes | 1 | 1 | 140.00 | 140.00 | 140.00 | 140.00 |
+| PRODUCTO | Fuentes de Poder | 1 | 1 | 140.00 | 140.00 | 140.00 | 140.00 |
+| PRODUCTO | Sillas Gamer | 1 | 1 | 360.00 | 360.00 | 360.00 | 360.00 |
+| SERVICIO | Soporte de Software | 2 | 3 | 25.00 | 30.00 | 28.33 | 85.00 |
+| SERVICIO | Mantenimiento Hardware | 1 | 1 | 40.00 | 40.00 | 40.00 | 40.00 |
 
 ---

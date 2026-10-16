@@ -158,17 +158,36 @@ proyecto-bd1-equipo-05/
 │   │
 │   ├── 📁 etapa-2/
 │   │   ├── 📁 der/
-│   │   │   └── 🗂️der.png
+│   │   │   └── 🗂️ der.png
 │   │   │
 │   │   ├── 📁 rel/
-│   │   │   └── 🗂️rel_normalizado.png
+│   │   │   └── 🗂️ rel_normalizado.png
 │   │   │
 │   │   ├── 📄 decisiones-diseño.md
 │   │   └── 📄 modelo-relacional.md
 │   │
-│   └── 📁 etapa-3/
-│       ├── 📄 implementacion.md
-│       ├── 📄 restricciones-integridad.md
-│       └── 📄 pruebas-validacion.md
+│   ├── 📁 etapa-3/
+│   │   ├── 📄 implementacion.md
+│   │   ├── 📄 restricciones-integridad.md
+│   │   └── 📄 pruebas-validacion.md
+│   │
+│   └── 📁 etapa-04/
+│       ├── 📄 casos-uso.md
+│       ├── 📄 comprobante-venta.md
+│       ├── 📄 informe-ventas.md
+│       └── 📄 consulta-avanzada.md
+│
+├── 📁 sql/
+│   │
+│   ├── 📁 ddl/
+│   │   └── 📄 crear_bd.sql
+│   │
+│   ├── 📁 dml/
+│   │   └── 📄 datos_prueba.sql
+│   │
+│   └── 📁 consultas/
+│       ├── 📄 comprobante_venta.sql
+│       ├── 📄 informe_ventas.sql
+│       └── 📄 consulta_avanzada.sql
 │
 └── 📄 README.md

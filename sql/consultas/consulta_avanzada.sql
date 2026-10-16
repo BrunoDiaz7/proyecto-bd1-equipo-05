@@ -35,7 +35,7 @@ SELECT
     P_Cli.DNI,
     CONCAT(P_Cli.apellido, ', ', P_Cli.nombre) AS Cliente,
     
-    git-- Contamos las facturas únicas por cliente
+    -- Contamos las facturas únicas por cliente
     COUNT(DISTINCT F.id_factura) AS Cantidad_Tickets,
 
     -- Desglosamos ítems comprados según si son productos o servicios

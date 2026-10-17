@@ -1,16 +1,4 @@
-Detalle y Resumen de Comprobantes (comprobante_venta.sql)
-
-Descripción General
-En este documento, nosotros explicamos cómo armamos las consultas para simular el sistema de facturación de nuestro local en la base de datos Proyecto_equipo5. 
-
-Nuestro objetivo acá fue recrear cómo se vería una factura real si la tuviéramos que imprimir o mostrar en una pantalla. Para que quede bien completo, dividimos el trabajo en dos partes:
-1. El cuerpo de la factura: Donde mostramos el detalle renglón por renglón de todo lo que el cliente se está llevando.
-2. El pie o resumen de la factura: Donde agrupamos todo para mostrar los totales, cuántas cosas compró en total, y si le hicimos algún descuento o recargo según cómo nos pagó.
-
-Detalle Renglón por Renglón (Cuerpo del Comprobante)
-
-Con esta primera consulta logramos que la base de datos nos muestre exactamente qué artículos o servicios componen cada venta.
-Un detalle importante fue utilizar la función especial ROW_NUMBER(). Esto nos permitió crear la columna "Renglon_Nro", que numera automáticamente los ítems (1, 2, 3...) reiniciando la cuenta cada vez que pasamos a una factura nuevas. 
+ 
 
 USE Proyecto_equipo5;
 GO

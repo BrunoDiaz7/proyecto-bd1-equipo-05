@@ -6,7 +6,7 @@ GO
 -- ============================================================================
 -- REPORTE 1: DETALLE RENGLÓN POR RENGLÓN (CUERPO DEL COMPROBANTE)
 -- ============================================================================
--- En esta primera consulta, nosotros logramos recrear la vista detallada de 
+-- En esta primera consulta, logramos recrear la vista detallada de 
 -- una factura. Mostramos cada artículo o servicio vendido numerándolo de 
 -- forma automática, tal como se vería impreso en el ticket de nuestro local.
 -- ============================================================================

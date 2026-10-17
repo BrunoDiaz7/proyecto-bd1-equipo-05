@@ -3,7 +3,7 @@
 ## Descripción General
 En este documento, nosotros explicamos cómo armamos las consultas para simular el sistema de facturación de nuestro local en la base de datos `Proyecto_equipo5`. 
 
-Nuestro objetivo acá fue recrear cómo se vería una factura real si la tuviéramos que imprimir o mostrar en una pantalla. Para que quede bien completo, dividimos el trabajo en dos partes:
+Nuestro objetivo acá fue recrear cómo se vería una factura real si la tuviéramos que imprimir o mostrar en una pantalla. Para que quede bien completo, se dividio el trabajo en dos partes:
 
 1. **El cuerpo de la factura:** Donde mostramos el detalle renglón por renglón de todo lo que el cliente se está llevando.
 2. **El pie o resumen de la factura:** Donde agrupamos todo para mostrar los totales, cuántas cosas compró en total, y si le hicimos algún descuento o recargo según cómo nos pagó.

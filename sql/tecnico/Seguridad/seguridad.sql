@@ -71,3 +71,77 @@ GO
 -- Incorporación de usuario al rol
 ALTER ROLE rol_consulta_productos ADD MEMBER usuario_con_rol;
 GO
+-- =========================================================================
+-- 5. SCRIPT DE DEMOSTRACION Y PRUEBAS DE SEGURIDAD
+-- =========================================================================
+
+USE Proyecto_equipo5;
+GO
+
+-- -------------------------------------------------------------------------
+-- 5.1. PRUEBA DEL USUARIO ADMINISTRADOR
+-- -------------------------------------------------------------------------
+
+EXECUTE AS USER = 'usuario_admin';
+
+SELECT
+    USER_NAME() AS UsuarioActual,
+    IS_MEMBER('db_owner') AS EsAdministrador;
+
+REVERT;
+GO
+
+
+-- -------------------------------------------------------------------------
+-- 5.2. PRUEBA DEL USUARIO LECTOR
+-- -------------------------------------------------------------------------
+
+EXECUTE AS USER = 'usuario_lector';
+
+SELECT
+    USER_NAME() AS UsuarioActual,
+    HAS_PERMS_BY_NAME('dbo.Factura', 'OBJECT', 'SELECT')
+        AS PuedeConsultarFacturas,
+    HAS_PERMS_BY_NAME('dbo.sp_RegistrarFacturaSimple', 'OBJECT', 'EXECUTE')
+        AS PuedeEjecutarProcedimiento;
+
+-- Comprobacion de consulta de facturas
+SELECT * FROM dbo.Factura;
+
+REVERT;
+GO
+
+
+-- -------------------------------------------------------------------------
+-- 5.3. PRUEBA DEL USUARIO CON ROL PERSONALIZADO
+-- -------------------------------------------------------------------------
+
+EXECUTE AS USER = 'usuario_con_rol';
+
+SELECT
+    USER_NAME() AS UsuarioActual,
+    IS_MEMBER('rol_consulta_productos') AS PerteneceAlRol,
+    HAS_PERMS_BY_NAME('dbo.Producto', 'OBJECT', 'SELECT')
+        AS PuedeConsultarProductos;
+
+-- Comprobacion de consulta de productos
+SELECT * FROM dbo.Producto;
+
+REVERT;
+GO
+
+
+-- -------------------------------------------------------------------------
+-- 5.4. PRUEBA DEL USUARIO SIN ROL
+-- -------------------------------------------------------------------------
+
+EXECUTE AS USER = 'usuario_sin_rol';
+
+SELECT
+    USER_NAME() AS UsuarioActual,
+    IS_MEMBER('rol_consulta_productos') AS PerteneceAlRol,
+    HAS_PERMS_BY_NAME('dbo.Producto', 'OBJECT', 'SELECT')
+        AS PuedeConsultarProductos;
+
+REVERT;
+GO

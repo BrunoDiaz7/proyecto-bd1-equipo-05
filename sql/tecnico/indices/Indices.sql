@@ -145,3 +145,77 @@ SELECT id_catalogo, codigo, nombre, precio
 FROM Catalogo
 WHERE id_categoria = 5 AND activo = 1;
 GO
+    
+USE Proyecto_equipo5;
+GO
+
+-- Cargamos datos
+SET NOCOUNT ON;
+GO
+
+WITH Numeros AS (
+    SELECT TOP (100000) ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS n
+    FROM sys.all_columns a
+    CROSS JOIN sys.all_columns b
+)
+INSERT INTO Persona (DNI, nombre, apellido, telefono, email)
+SELECT 
+    10000000 + n,
+    'Nombre_' + CAST(n AS VARCHAR(10)),
+    -- Ponemos 'Gomez' cada 5k filas para tener un apellido repetido especifico
+    CASE WHEN n % 5000 = 0 THEN 'Gomez' ELSE 'Apellido_' + CAST(n AS VARCHAR(10)) END,
+    '3794' + CAST(n AS VARCHAR(6)),
+    'correo' + CAST(n AS VARCHAR(10)) + '@gmail.com'
+FROM Numeros;
+GO
+
+-- Verificamos la cantidad de registros
+SELECT 'Persona' AS Tabla, COUNT(*) AS CantidadRegistros 
+FROM Persona
+
+-- Activar las estadisticas de rendimiento
+SET STATISTICS TIME ON;
+SET STATISTICS IO ON;
+GO
+
+-- ==========================================
+-- ESCENARIO 1: Consulta Sin Índice
+-- ==========================================
+SELECT 
+p.id_persona, p.nombre, p.apellido, p.telefono, c.fecha_alta
+FROM Persona p
+INNER JOIN Cliente c ON p.id_persona = c.id_persona_cliente
+WHERE p.apellido = 'Gomez';
+GO
+
+-- ==========================================
+-- ESCENARIO 2: Con Índice Básico (No Agrupado)
+-- ==========================================
+CREATE NONCLUSTERED INDEX IX_Persona_Apellido ON Persona(apellido);
+GO
+
+SELECT p.id_persona, p.nombre, p.apellido, p.telefono, c.fecha_alta
+FROM Persona p
+INNER JOIN Cliente c ON p.id_persona = c.id_persona_cliente
+WHERE p.apellido <> 'Gomez';
+GO
+
+-- Eliminar el indice
+DROP INDEX IX_Persona_Apellido 
+ON Persona;
+GO
+
+-- ==========================================
+-- ESCENARIO 3: Con Índice de Cobertura (INCLUDE)
+-- ==========================================
+CREATE NONCLUSTERED INDEX IX_Persona_Apellido_Cobertura
+ON Persona(apellido)
+INCLUDE (nombre, telefono);
+GO
+
+-- Repetir la consulta con indice de Cobertura
+SELECT p.id_persona, p.nombre, p.apellido, p.telefono, c.fecha_alta
+FROM Persona p
+INNER JOIN Cliente c ON p.id_persona = c.id_persona_cliente
+WHERE p.apellido = 'Gomez';
+GO

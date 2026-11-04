@@ -69,48 +69,96 @@ BEGIN
 END;
 GO
 
-/* =========================================================================
-   TRIGGER RESTRICTIVO: trg_Evitar_Borrado_Factura
-   Proposito: Bloquear cualquier intento de borrar registros (DELETE) en la 
-   tabla Factura para asegurar la integridad de la base de datos.
-   ========================================================================= */
 
-CREATE OR ALTER TRIGGER dbo.trg_Evitar_Borrado_Factura
-ON dbo.Factura 
-INSTEAD OF DELETE-- En este caso con INSTEAD OF la fila todavia no se borro y el trigger decide
-AS
-BEGIN
-    SET NOCOUNT ON;
-    
-    RAISERROR('Operacion denegada por el TRIGGER. No puede eliminar registros de la tabla Factura.', 16, 1);
-END;
+-- =========================================================================
+-- DEMOSTRACION DEL TRIGGER DE CATALOGO
+-- =========================================================================
+
+
+-- =========================================================================
+-- GUARDAR EL ESTADO INICIAL EN TABLAS TEMPORALES
+-- =========================================================================
+DROP TABLE IF EXISTS #catalogo_inicial;
+SELECT id_catalogo, precio, activo, descripcion 
+INTO #catalogo_inicial 
+FROM Catalogo;
+
+DROP TABLE IF EXISTS #auditoria_inicial;
+SELECT ISNULL(MAX(id_auditoria), 0) AS ultimo_id 
+INTO #auditoria_inicial
+FROM Auditoria_Precio_Catalogo;
 GO
 
-/* =========================================================================
-   TRIGGER DE VALIDACION DE EMAIL PARA EMPLEADO: trg_Validar_Email_Empleado
-   Proposito: Exigir obligatoriamente una dirección de correo electrónico en la 
-   tabla Persona únicamente para el personal registrado como Empleado, 
-   permitiendo omitirla opcionalmente en los Clientes.
-   ========================================================================= */
+-- =========================================================================
+-- DEMOSTRACION DEL TRIGGER DE AUDITORIA DE PRECIO O ESTADO DE CATALOGO
+-- =========================================================================
 
-CREATE OR ALTER TRIGGER dbo.trg_Validar_Email_Empleado
-ON dbo.Empleado
-AFTER INSERT, UPDATE
-AS
-BEGIN
-    SET NOCOUNT ON;
+-- Muestramos la tabla temporal sin datos 
+SELECT 
+    id_auditoria AS [ID], 
+    codigo AS [Cod], 
+    precio_anterior AS [Precio Viejo], 
+    precio_nuevo AS [Precio Nuevo], 
+    activo_anterior AS [Activo Viejo], 
+    activo_nuevo AS [Activo Nuevo], 
+    usuario_db AS [Usuario], 
+    fecha_hora AS [Fecha]
+FROM Auditoria_Precio_Catalogo;
 
-    -- Comprobamos si el empleado insertado o actualizado tiene email NULL o vacío en Persona
-    IF EXISTS (
-        SELECT 1 
-        FROM inserted AS i
-        INNER JOIN dbo.Persona AS p ON i.id_persona_empleado = p.id_persona
-        WHERE p.email IS NULL
-    )
-    BEGIN
-        -- Si no tiene email, lanzamos un error y se aborta toda la transacción
-        RAISERROR('Operación denegada por el TRIGGER. Es obligatorio registrar un email para el personal empleado.', 16, 1);
-        ROLLBACK TRANSACTION;
-    END
-END;
+-- Modificamos el precio del producto ID 1
+UPDATE Catalogo 
+SET precio = 999.99 
+WHERE id_catalogo = 1;
+
+-- Modificamos el estado del producto ID 2
+UPDATE Catalogo 
+SET activo = 0 
+WHERE id_catalogo = 2;
+
+-- Modificamos una columna no auditada (descripcion) en el producto ID 3
+UPDATE Catalogo 
+SET descripcion = descripcion + '(Test)' 
+WHERE id_catalogo = 3;
+
+
+-- Mostramos las descripciones de los 3 registros para ver que si se coloco el (test) en la columna no auditada (en la de id_catalogo = 3)
+SELECT id_catalogo, descripcion 
+FROM Catalogo
+WHERE id_catalogo IN (1, 2, 3);
+
+-- Mostramos registros de auditoria generados
+SELECT 
+    id_auditoria AS [ID], 
+    codigo AS [Cod], 
+    precio_anterior AS [Precio Viejo], 
+    precio_nuevo AS [Precio Nuevo], 
+    activo_anterior AS [Activo Viejo], 
+    activo_nuevo AS [Activo Nuevo], 
+    usuario_db AS [Usuario], 
+    fecha_hora AS [Fecha]
+FROM Auditoria_Precio_Catalogo
 GO
+
+-- =========================================================================
+-- RESTAURACION Y LIMPIEZA
+-- =========================================================================
+
+-- Restauramos los valores originales del catalogo
+UPDATE c
+SET c.precio = i.precio,
+    c.activo = i.activo,
+    c.descripcion = i.descripcion
+FROM Catalogo AS c
+INNER JOIN #catalogo_inicial AS i ON c.id_catalogo = i.id_catalogo
+WHERE c.precio <> i.precio
+   OR c.activo <> i.activo
+   OR c.descripcion <> i.descripcion;
+DELETE FROM Auditoria_Precio_Catalogo
+WHERE id_auditoria > (SELECT ultimo_id FROM #auditoria_inicial);
+
+-- Eliminamos las tablas temporales
+DROP TABLE #catalogo_inicial;
+DROP TABLE #auditoria_inicial;
+GO
+
+SELECT * FROM Catalogo WHERE id_catalogo IN (1,2,3)

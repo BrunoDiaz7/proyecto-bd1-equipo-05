@@ -4,9 +4,12 @@ GO
 -- =========================================================
 -- PRUEBA 1: Procedimiento registrar_cliente
 -- =========================================================
+PRINT '=========================================================';
 PRINT '--- 1. PRUEBA: REGISTRAR CLIENTE ---';
+PRINT '=========================================================';
 
 -- A. Caso Exitoso: Registro de un cliente nuevo
+PRINT '--- 1.A. PRUEBA ÉXITO: CLIENTE NUEVO ---';
 DECLARE @DNI_Prueba INT = 45123456;
 
 -- Aseguramos que el DNI no exista previamente para la prueba limpia
@@ -46,8 +49,12 @@ GO
 -- =========================================================
 -- PRUEBA 2: Procedimiento registrar_venta
 -- =========================================================
+PRINT '=========================================================';
 PRINT '--- 2. PRUEBA: REGISTRAR VENTA ---';
+PRINT '=========================================================';
 
+-- A. Caso Exitoso: Registro de una venta válida
+PRINT '--- 2.A. PRUEBA ÉXITO: REGISTRAR VENTA VÁLIDA ---';
 DECLARE @ListaVenta dbo.ListaProductosTipo;
 DECLARE @EmpleadoID INT, @ClienteID INT, @MetodoPagoID INT;
 
@@ -73,16 +80,100 @@ SELECT TOP 1 * FROM Factura ORDER BY id_factura DESC;
 SELECT TOP 1 * FROM Detalle_Factura ORDER BY id_detalle_factura DESC;
 GO
 
+-- B. Caso Error: Detalle de productos vacío
+PRINT '--- 2.B. PRUEBA ERROR: VENTA CON DETALLE VACÍO ---';
+DECLARE @ListaVacia dbo.ListaProductosTipo;
+DECLARE @EmpleadoID2 INT, @ClienteID2 INT, @MetodoPagoID2 INT;
+
+SELECT TOP 1 @EmpleadoID2 = id_persona_empleado FROM Empleado;
+SELECT TOP 1 @ClienteID2 = id_persona_cliente FROM Cliente;
+SELECT TOP 1 @MetodoPagoID2 = id_metodo_pago FROM Metodo_Pago WHERE activo = 1;
+
+BEGIN TRY
+    EXEC dbo.registrar_venta
+        @id_empleado = @EmpleadoID2,
+        @id_cliente = @ClienteID2,
+        @id_metodo_pago = @MetodoPagoID2,
+        @Detalle = @ListaVacia; -- Tabla sin filas
+END TRY
+BEGIN CATCH
+    PRINT 'Error capturado correctamente: ' + ERROR_MESSAGE();
+END CATCH;
+GO
+
+-- C. Caso Error: Producto inexistente en el catálogo
+PRINT '--- 2.C. PRUEBA ERROR: PRODUCTO INEXISTENTE EN EL CATÁLOGO ---';
+DECLARE @ListaProductoInvalido dbo.ListaProductosTipo;
+DECLARE @EmpleadoID3 INT, @ClienteID3 INT, @MetodoPagoID3 INT;
+
+SELECT TOP 1 @EmpleadoID3 = id_persona_empleado FROM Empleado;
+SELECT TOP 1 @ClienteID3 = id_persona_cliente FROM Cliente;
+SELECT TOP 1 @MetodoPagoID3 = id_metodo_pago FROM Metodo_Pago WHERE activo = 1;
+
+-- Se inserta un ID de producto que no existe (-999)
+INSERT INTO @ListaProductoInvalido (id_producto, cantidad)
+VALUES (-999, 1);
+
+BEGIN TRY
+    EXEC dbo.registrar_venta
+        @id_empleado = @EmpleadoID3,
+        @id_cliente = @ClienteID3,
+        @id_metodo_pago = @MetodoPagoID3,
+        @Detalle = @ListaProductoInvalido;
+END TRY
+BEGIN CATCH
+    PRINT 'Error capturado correctamente: ' + ERROR_MESSAGE();
+END CATCH;
+GO
+
+-- D. Caso Error: Método de pago inactivo o inexistente
+PRINT '--- 2.D. PRUEBA ERROR: MÉTODO DE PAGO INACTIVO O INEXISTENTE ---';
+DECLARE @ListaVenta4 dbo.ListaProductosTipo;
+DECLARE @EmpleadoID4 INT, @ClienteID4 INT;
+
+SELECT TOP 1 @EmpleadoID4 = id_persona_empleado FROM Empleado;
+SELECT TOP 1 @ClienteID4 = id_persona_cliente FROM Cliente;
+
+INSERT INTO @ListaVenta4 (id_producto, cantidad)
+SELECT TOP 1 id_catalogo_producto, 1 
+FROM Producto;
+
+BEGIN TRY
+    EXEC dbo.registrar_venta
+        @id_empleado = @EmpleadoID4,
+        @id_cliente = @ClienteID4,
+        @id_metodo_pago = -999, -- ID de método de pago inválido
+        @Detalle = @ListaVenta4;
+END TRY
+BEGIN CATCH
+    PRINT 'Error capturado correctamente: ' + ERROR_MESSAGE();
+END CATCH;
+GO
+
 
 -- =========================================================
 -- PRUEBA 3: Procedimiento EliminarFactura
 -- =========================================================
+PRINT '=========================================================';
 PRINT '--- 3. PRUEBA: ELIMINAR FACTURA Y REINTEGRAR STOCK ---';
+PRINT '=========================================================';
 
+-- A. Caso Error: Intentar eliminar una factura inexistente
+PRINT '--- 3.A. PRUEBA ERROR: ELIMINAR FACTURA INEXISTENTE ---';
+BEGIN TRY
+    EXEC dbo.EliminarFactura @id_factura = 999999;
+END TRY
+BEGIN CATCH
+    PRINT 'Error capturado correctamente: ' + ERROR_MESSAGE();
+END CATCH;
+GO
+
+-- B. Caso Exitoso: Eliminar la última factura creada y verificar stock
+PRINT '--- 3.B. PRUEBA ÉXITO: ELIMINAR FACTURA EXISTENTE Y REINTEGRAR STOCK ---';
 DECLARE @IdFacturaAEliminar INT;
 SELECT TOP 1 @IdFacturaAEliminar = id_factura FROM Factura ORDER BY id_factura DESC;
 
--- A. Verificar el stock de un producto antes de borrar la factura
+-- Verificar el stock de los productos de la factura antes de la eliminación
 SELECT 
     DF.id_factura, 
     P.id_catalogo_producto, 
@@ -94,18 +185,10 @@ INNER JOIN Producto P ON DF.id_catalogo = P.id_catalogo_producto
 INNER JOIN Catalogo C ON P.id_catalogo_producto = C.id_catalogo
 WHERE DF.id_factura = @IdFacturaAEliminar;
 
--- B. Probar eliminación de factura inexistente (Debe lanzar error)
-BEGIN TRY
-    EXEC dbo.EliminarFactura @id_factura = 999999;
-END TRY
-BEGIN CATCH
-    PRINT 'Error capturado correctamente: ' + ERROR_MESSAGE();
-END CATCH;
-
--- C. Probar eliminación de la factura existente capturada
+-- Ejecutar la eliminación atómica
 EXEC dbo.EliminarFactura @id_factura = @IdFacturaAEliminar;
 
--- D. Verificar que el stock haya aumentado según la cantidad devuelta
+-- Verificar que el stock haya aumentado según la cantidad devuelta
 SELECT 
     id_catalogo_producto, 
     stock_actual AS stock_despues_de_eliminar 

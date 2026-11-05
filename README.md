@@ -8,7 +8,7 @@
 <img src="https://img.shields.io/badge/UNNE-Base%20de%20Datos%20I-blue" alt="UNNE - Base de Datos I">
 <img src="https://img.shields.io/badge/Proyecto%20Integrador-2026-orange" alt="Proyecto Integrador 2026">
 <img src="https://img.shields.io/badge/Equipo-05-green" alt="Equipo 05">
-<img src="https://img.shields.io/badge/Estado-En%20desarrollo-yellow" alt="Estado">
+<img src="https://img.shields.io/badge/Estado-Finalizado-brightgreen" alt="Estado: Finalizado">
 
 </div>
 
@@ -25,7 +25,7 @@ El modelo de negocio comprende dos áreas principales:
 - **Comercialización de productos:** venta minorista de componentes de hardware, como procesadores, placas de video y memorias; periféricos; celulares y computadoras ensambladas.
 - **Prestación de servicios técnicos:** armado de PC a medida, mantenimiento preventivo, diagnóstico y reparación de equipos.
 
-El sistema permitirá registrar y relacionar la información correspondiente a **productos, servicios, clientes, personal, operaciones, métodos de pago y stock**, proporcionando una estructura centralizada para la gestión de las actividades del comercio.
+El sistema permite registrar y relacionar la información correspondiente a **productos, servicios, clientes, personal, operaciones, métodos de pago y stock**, proporcionando una estructura centralizada para la gestión de las actividades del comercio.
 
 ---
 
@@ -41,13 +41,13 @@ La falta de un registro integrado puede generar diferencias entre el **inventari
 
 ComproTecno propone centralizar el registro de las operaciones comerciales y técnicas, permitiendo controlar los movimientos de inventario y actualizar las cantidades disponibles como consecuencia de cada operación.
 
-El sistema conservará además el **precio unitario de los productos y la tarifa de los servicios al momento de realizar una operación**, evitando que modificaciones posteriores afecten el historial de operaciones anteriores.
+El sistema conserva además el **precio unitario de los productos y la tarifa de los servicios al momento de realizar una operación**, evitando que modificaciones posteriores afecten el historial de operaciones anteriores.
 
 ---
 
 ## <img src="https://img.shields.io/badge/03-ALCANCE-8b5cf6" height="24"> Alcance del sistema
 
-El sistema permitirá gestionar:
+El sistema permite gestionar:
 
 | Área | Funcionalidad |
 |---|---|
@@ -62,29 +62,22 @@ El sistema permitirá gestionar:
 | **Métodos de pago** | Registro de los medios de pago utilizados en cada operación. |
 | **Precios** | Conservación del precio aplicado en cada operación histórica. |
 
---
+---
 
 ## <img src="https://img.shields.io/badge/04-OBJETIVOS%20GENERALES-10b981" height="24"> Objetivos generales
 
 1. **Diseñar una base de datos relacional** que represente adecuadamente el funcionamiento de ComproTecno.
-
 2. **Modelar el dominio del negocio**, identificando las entidades, atributos, relaciones y restricciones necesarias.
-
 3. **Definir las reglas de negocio** que regulan las operaciones comerciales y técnicas del sistema.
-
 4. **Construir el modelo conceptual** mediante un Diagrama Entidad-Relación (DER), utilizando las entidades, relaciones y cardinalidades correspondientes.
-
 5. **Transformar el modelo conceptual al modelo relacional**, definiendo correctamente las claves primarias y foráneas.
-
 6. **Normalizar el esquema hasta la Tercera Forma Normal (3FN)**, reduciendo redundancias y evitando dependencias funcionales incorrectas.
-
 7. **Garantizar la integridad y consistencia de los datos**, estableciendo relaciones y restricciones adecuadas.
-
 8. **Documentar las decisiones de diseño** tomadas durante las distintas etapas del desarrollo.
-
 9. **Mantener un repositorio organizado**, que permita seguir la evolución del proyecto y consultar los diferentes entregables.
 
 ---
+
 ## <img src="https://img.shields.io/badge/05-REGLAS%20DE%20NEGOCIO-f59e0b" height="24"> Reglas de negocio principales
 
 El funcionamiento de ComproTecno se encuentra definido mediante un conjunto de reglas de negocio.
@@ -106,6 +99,7 @@ La definición completa de las reglas se encuentra en:
 [`docs/etapa-01/reglas-negocio.md`](docs/etapa-01/reglas-negocio.md)
 
 ---
+
 ## <img src="https://img.shields.io/badge/06-DOCUMENTACIÓN-0ea5e9" height="24"> Documentación
 
 La documentación se encuentra organizada dentro de la carpeta [`docs/`](docs/), separada de acuerdo con las etapas del proyecto.
@@ -116,6 +110,7 @@ Esta etapa comprende el análisis inicial del problema, la descripción del caso
 
 | Documento | Descripción |
 |---|---|
+| [`alcance.md`](docs/etapa-01/alcance.md) | Definición del alcance y de las funcionalidades contempladas para el sistema. |
 | [`descripcion_del_caso.md`](docs/etapa-01/descripcion_del_caso.md) | Descripción del caso, modelo de negocio, alcance, problemática y solución propuesta. |
 | [`reglas-negocio.md`](docs/etapa-01/reglas-negocio.md) | Definición de las reglas de negocio que rigen el funcionamiento del sistema. |
 | [`equipo5_etapa_1.docx`](docs/etapa-01/equipo5_etapa_1.docx) | Documento correspondiente a la entrega de la Etapa 01. |
@@ -124,18 +119,16 @@ Esta etapa comprende el análisis inicial del problema, la descripción del caso
 
 Esta etapa comprende la representación conceptual del sistema y su transformación hacia el modelo relacional.
 
-| Documento | Descripción |
+| Documento o recurso | Descripción |
 |---|---|
-| [`decisiones-diseño.md`](docs/etapa-2/decisiones-diseño.md) | Registro y justificación de las decisiones tomadas durante el diseño del modelo. |
-| [`modelo-relacional.md`](docs/etapa-2/modelo-relacional.md) | Desarrollo del modelo relacional a partir del modelo conceptual. |
-| [`der/`](docs/etapa-2/der/) | Recursos correspondientes al Diagrama Entidad-Relación. |
-| [`rel/`](docs/etapa-2/rel/) | Recursos correspondientes al modelo relacional. |
+| [`decisiones-diseño.md`](docs/etapa-02/decisiones-diseño.md) | Registro y justificación de las decisiones tomadas durante el diseño del modelo. |
+| [`modelo-relacional.md`](docs/etapa-02/modelo-relacional.md) | Desarrollo del modelo relacional a partir del modelo conceptual. |
+| [`der/`](docs/etapa-02/der/) | Recursos correspondientes al Diagrama Entidad-Relación. |
+| [`rel/`](docs/etapa-02/rel/) | Recursos correspondientes al modelo relacional. |
 
 ### Etapa 03 — Implementación física
 
-Esta etapa corresponde a la implementación física de la base de datos mediante scripts SQL.
-
-De acuerdo con los requerimientos del proyecto, comprende la creación de las tablas, la definición de claves y restricciones de integridad, y el posterior poblado de la base de datos con registros de prueba coherentes.
+Esta etapa corresponde a la implementación física de la base de datos mediante scripts SQL. Comprende la creación de las tablas, la definición de claves y restricciones de integridad, y el posterior poblado de la base de datos con registros de prueba coherentes.
 
 | Documento | Descripción |
 |---|---|
@@ -157,7 +150,22 @@ Los scripts correspondientes se encuentran organizados en la carpeta [`sql/consu
 | [`informe_ventas.sql`](sql/consultas/informe_ventas.sql) | Genera un reporte agregado de ventas por vendedor o categoría de producto dentro de un rango de fechas. |
 | [`consulta_avanzada.sql`](sql/consultas/consulta_avanzada.sql) | Combina al menos tres tablas mediante `JOIN` y aplica filtros condicionales utilizando `HAVING` o subconsultas. |
 
+### Etapa 05 — Implementación de temas técnicos
+
+Esta etapa comprende la investigación, implementación y demostración de diferentes mecanismos y estructuras avanzadas de SQL Server, orientados a mejorar el rendimiento, la seguridad, la integridad y el mantenimiento de la base de datos.
+
+La documentación de cada tema técnico y sus respectivas evidencias se encuentran organizadas en `docs/etapa-05/`, mientras que los scripts de implementación están ubicados en `sql/tecnico/`.
+
+| **Tema técnico** | **Descripción** |
+|---|---|
+| [`optimizacion_de_consultas/`](docs/etapa-05/optimizacion_de_consultas/investigacion.md) | Investigación e implementación de índices no agrupados y de cobertura mediante `INCLUDE`, evaluando su impacto en el rendimiento de las consultas. |
+| [`procedimientos_funciones/`](docs/etapa-05/procedimientos_funciones/investigacion.md) | Implementación de procedimientos almacenados y funciones para registrar ventas, administrar clientes, calcular descuentos y generar comprobantes. |
+| [`transacciones/`](docs/etapa-05/transacciones/investigacion.md) | Aplicación de mecanismos transaccionales para garantizar la atomicidad y consistencia de las operaciones mediante `COMMIT`, `ROLLBACK` y manejo de errores. |
+| [`triggers_auditoria/`](docs/etapa-05/triggers_auditoria/investigacion.md) | Implementación de triggers para auditar modificaciones de precios y stock, validar información de empleados y proteger registros de facturación. |
+| [`seguridad/`](docs/etapa-05/seguridad/investigacion.md) | Implementación de usuarios, permisos y roles personalizados para controlar los niveles de acceso y proteger la información de la base de datos. |
+
 ---
+
 ## <img src="https://img.shields.io/badge/07-ESTRUCTURA%20DEL%20REPOSITORIO-64748b" height="24"> Estructura del repositorio
 
 ```text
@@ -165,52 +173,83 @@ proyecto-bd1-equipo-05/
 │
 ├── 📁 docs/
 │   ├── 📁 etapa-01/
+│   │   ├── 📄 alcance.md
 │   │   ├── 📄 descripcion_del_caso.md
 │   │   ├── 📄 equipo5_etapa_1.docx
 │   │   └── 📄 reglas-negocio.md
 │   │
-│   ├── 📁 etapa-2/
+│   ├── 📁 etapa-02/
 │   │   ├── 📁 der/
-│   │   │   └── 🗂️ der.png
 │   │   ├── 📁 rel/
-│   │   │   └── 🗂️ rel_normalizado.png
 │   │   ├── 📄 decisiones-diseño.md
-│   │   └── 📄 modelo-relacional.md
+│   │   ├── 📄 modelo-relacional.md
+│   │   └── 📄 normalizacion.md
 │   │
-│   ├── 📁 etapa-3/
+│   ├── 📁 etapa-03/
 │   │   ├── 📄 implementacion.md
-│   │   ├── 📄 restricciones-integridad.md
-│   │   └── 📄 pruebas-validacion.md
+│   │   ├── 📄 pruebas-validacion.md
+│   │   └── 📄 restricciones-integridad.md
 │   │
-│   └── 📁 etapa-04/
-│       ├── 📄 casos-uso.md
-│       ├── 📄 comprobante-venta.md
-│       ├── 📄 informe-ventas.md
-│       └── 📄 consulta-avanzada.md
+│   ├── 📁 etapa-04/
+│   │   ├── 📄 casos-uso.md
+│   │   ├── 📄 comprobante-venta.md
+│   │   ├── 📄 consulta-avanzada.md
+│   │   └── 📄 informe-ventas.md
+│   │
+│   └── 📁 etapa-05/
+│       ├── 📁 optimizacion_de_consultas/
+│       │   ├── 📁 evidencias/
+│       │   └── 📄 investigacion.md
+│       │
+│       ├── 📁 procedimientos_funciones/
+│       │   ├── 📁 evidencias/
+│       │   └── 📄 investigacion.md
+│       │
+│       ├── 📁 seguridad/
+│       │   ├── 📁 evidencias/
+│       │   └── 📄 investigacion.md
+│       │
+│       ├── 📁 transacciones/
+│       │   └── 📄 investigacion.md
+│       │
+│       └── 📁 triggers_auditoria/
+│           ├── 📁 evidencias/
+│           └── 📄 investigacion.md
 │
 ├── 📁 sql/
-│   │
 │   ├── 📁 ddl/
 │   │   └── 📄 crear_bd.sql
 │   │
 │   ├── 📁 dml/
-│   │   └── 📄 datos_prueba.sql
+│   │   └── 📄 Datos_prueba.sql
 │   │
-│   └── 📁 consultas/
-│       ├── 📄 comprobante_venta.sql
-│       ├── 📄 informe_ventas.sql
-│       └── 📄 consulta_avanzada.sql
-│
-├── 📁 sql/
-│   ├── 📁 ddl/
-│   │   └── 📄 crear_bd.sql
+│   ├── 📁 consultas/
+│   │   ├── 📄 comprobante_venta.sql
+│   │   ├── 📄 consulta_avanzada.sql
+│   │   └── 📄 informe_ventas.sql
 │   │
-│   ├── 📁 dml/
-│   │   └── 📄 Datos prueba.sql
-│   │
-│   └── 📁 consultas/
-│       ├── 📄 comprobante_venta.sql
-│       ├── 📄 informe_ventas.sql
-│       └── 📄 consulta_avanzada.sql
+│   └── 📁 tecnico/
+│       ├── 📁 Seguridad/
+│       │   └── 📄 seguridad.sql
+│       │
+│       ├── 📁 funciones/
+│       │   ├── 📄 calcular_descuento.sql
+│       │   ├── 📄 detalle_comprobante.sql
+│       │   └── 📄 pruebas-funciones.sql
+│       │
+│       ├── 📁 indices/
+│       │   └── 📄 Indices.sql
+│       │
+│       ├── 📁 procedimientos/
+│       │   ├── 📄 eliminar_factura.sql
+│       │   ├── 📄 pruebas-procedimientos.sql
+│       │   ├── 📄 registrar_cliente.sql
+│       │   └── 📄 registrar_venta.sql
+│       │
+│       └── 📁 triggers/
+│           ├── 📄 trigger_catalogo.sql
+│           ├── 📄 trigger_empleado.sql
+│           └── 📄 trigger_restrictivo_factura.sql
 │
 └── 📄 README.md
+```

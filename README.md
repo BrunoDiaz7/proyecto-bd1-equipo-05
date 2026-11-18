@@ -218,7 +218,8 @@ proyecto-bd1-equipo-05/
 │
 ├── 📁 sql/
 │   ├── 📁 ddl/
-│   │   └── 📄 crear_bd.sql
+│   │   ├── 📄 crear_bd.sql
+│   │   └── 📄 modificar-estructura.sql
 │   │
 │   ├── 📁 dml/
 │   │   └── 📄 Datos_prueba.sql
@@ -253,3 +254,20 @@ proyecto-bd1-equipo-05/
 │
 └── 📄 README.md
 ```
+
+---
+
+## <img src="https://img.shields.io/badge/08-ORDEN%20DE%20EJECUCIÓN-14b8a6" height="24"> Orden de ejecución de los scripts
+
+Para desplegar correctamente la base de datos y evitar errores de dependencias entre objetos, los scripts SQL deben ejecutarse en el siguiente orden:
+
+1. **[`sql/ddl/crear_bd.sql`](sql/ddl/crear_bd.sql)**  
+   Crea la base de datos, las tablas principales, claves primarias, claves foráneas y restricciones de integridad.
+2. **[`sql/dml/Datos_prueba.sql`](sql/dml/Datos_prueba.sql)**  
+   Carga el lote inicial de datos de prueba coherentes para validar el funcionamiento del esquema.
+3. **[`sql/ddl/modificar-estructura.sql`](sql/ddl/modificar-estructura.sql)**  
+   Aplica las modificaciones y ajustes estructurales posteriores sobre las tablas ya creadas y pobladas.
+4. **[`sql/tecnico/funciones/calcular_descuento.sql`](sql/tecnico/funciones/calcular_descuento.sql)**  
+   Define tipos de datos personalizados (`TYPE`) y funciones requeridas como dependencia previa antes de ejecutar los procedimientos almacenados y el resto de los scripts técnicos.
+
+> **Nota:** Una vez completados estos cuatro pasos base, pueden ejecutarse de forma independiente el resto de las funciones, procedimientos almacenados, triggers, índices, reglas de seguridad y consultas de reporte.

@@ -91,5 +91,3 @@ DELETE FROM Empleado WHERE id_persona_empleado IN (@id_sin_email, @id_con_email)
 DELETE FROM Cliente WHERE id_persona_cliente IN (@id_sin_email, @id_con_email);
 DELETE FROM Persona WHERE id_persona IN (@id_sin_email, @id_con_email);
 GO
-
-

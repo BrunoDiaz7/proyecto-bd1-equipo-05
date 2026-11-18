@@ -2,21 +2,6 @@ USE Proyecto_equipo5;
 GO
 
 -- =========================================================================
--- 1. PROCEDIMIENTO ALMACENADO (Equivalente al ejemplo de la guía)
--- =========================================================================
-CREATE PROCEDURE dbo.sp_RegistrarFacturaSimple
-    @monto_subtotal DECIMAL(12,2),
-    @id_metodo_pago INT,
-    @id_persona_empleado INT,
-    @id_persona_cliente INT
-AS
-BEGIN
-    INSERT INTO Factura (fecha_hora, monto_subtotal, monto_ajuste, monto_final, id_metodo_pago, id_persona_empleado, id_persona_cliente)
-    VALUES (GETDATE(), @monto_subtotal, 0.00, @monto_subtotal, @id_metodo_pago, @id_persona_empleado, @id_persona_cliente);
-END;
-GO
-
--- =========================================================================
 -- 2. PARTE 1: PERMISOS ASIGNADOS DIRECTAMENTE A USUARIOS
 -- =========================================================================
 
@@ -39,7 +24,8 @@ GO
 
 -- Usuario con permisos limitados (Permiso de lectura y ejecución del procedimiento)
 GRANT SELECT ON dbo.Factura TO usuario_lector;
-GRANT EXECUTE ON dbo.sp_RegistrarFacturaSimple TO usuario_lector;
+GRANT EXECUTE ON TYPE::dbo.ListaProductosTipo TO usuario_lector;
+GRANT EXECUTE ON dbo.registrar_venta TO usuario_lector;
 GO
 
 
@@ -102,8 +88,18 @@ SELECT
     USER_NAME() AS UsuarioActual,
     HAS_PERMS_BY_NAME('dbo.Factura', 'OBJECT', 'SELECT')
         AS PuedeConsultarFacturas,
-    HAS_PERMS_BY_NAME('dbo.sp_RegistrarFacturaSimple', 'OBJECT', 'EXECUTE')
+    HAS_PERMS_BY_NAME('registrar_venta', 'OBJECT', 'EXECUTE')
         AS PuedeEjecutarProcedimiento;
+
+-- prueba de ejecucion de procedimiento
+DECLARE @Carrito dbo.ListaProductosTipo;
+INSERT INTO @Carrito (id_producto, cantidad) VALUES (1, 2), (2, 5);
+
+EXEC registrar_venta
+@id_empleado = 1,
+@id_cliente = 10,
+@id_metodo_pago = 1,
+@detalle = @Carrito;
 
 -- Comprobacion de consulta de facturas
 SELECT * FROM dbo.Factura;

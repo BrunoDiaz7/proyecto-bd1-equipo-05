@@ -1,4 +1,4 @@
-USE proyecto_equipo5;
+USE Proyecto_equipo5;
 GO
 
 SET STATISTICS TIME ON;
@@ -16,9 +16,9 @@ CHECKPOINT;
 DBCC DROPCLEANBUFFERS;
 GO
 
-SELECT id_factura, fecha_hora, monto_final, id_persona_empleado
+SELECT id_factura, fecha_hora, ajuste_historico, id_metodo_pago, id_persona_empleado
 FROM Factura
-WHERE fecha_hora BETWEEN '2024-09-01' AND '2024-09-30 23:59:59';
+WHERE fecha_hora BETWEEN '2026-09-01' AND '2026-09-30 23:59:59';
 GO
 
 -- ==========================================
@@ -32,9 +32,9 @@ CHECKPOINT;
 DBCC DROPCLEANBUFFERS;
 GO
 
-SELECT id_factura, fecha_hora, monto_final, id_persona_empleado
+SELECT id_factura, fecha_hora, ajuste_historico, id_metodo_pago, id_persona_empleado
 FROM Factura
-WHERE fecha_hora BETWEEN '2024-09-01' AND '2024-09-30 23:59:59';
+WHERE fecha_hora BETWEEN '2026-09-01' AND '2026-09-30 23:59:59';
 GO
 
 -- ==========================================
@@ -45,19 +45,19 @@ GO
 
 CREATE NONCLUSTERED INDEX IX_Factura_FechaHora_Cobertura
 ON Factura (fecha_hora)
-INCLUDE (monto_final, id_persona_empleado);
+INCLUDE (ajuste_historico, id_metodo_pago, id_persona_empleado);
 GO
 
 CHECKPOINT;
 DBCC DROPCLEANBUFFERS;
 GO
 
-SELECT id_factura, fecha_hora, monto_final, id_persona_empleado
+SELECT id_factura, fecha_hora, ajuste_historico, id_metodo_pago, id_persona_empleado
 FROM Factura
-WHERE fecha_hora BETWEEN '2024-09-01' AND '2024-09-30 23:59:59';
+WHERE fecha_hora BETWEEN '2026-09-01' AND '2026-09-30 23:59:59';
 GO
 
-USE proyecto_equipo5;
+USE Proyecto_equipo5;
 GO
 
 -- 1. Obtener una categoría válida de la tabla Categoria
@@ -88,7 +88,6 @@ BEGIN
     SET @i = @i + 1;
 END;
 GO
-
 
 SET STATISTICS TIME ON;
 SET STATISTICS IO ON;
@@ -130,6 +129,9 @@ GO
 -- ESCENARIO 3: Con Índice de Cobertura (INCLUDE)
 -- ==========================================
 DROP INDEX IX_Catalogo_Categoria_Activo ON Catalogo;
+GO
+
+DROP INDEX IX_Catalogo_Categoria_Activo_Cobertura ON CATALOGO;
 GO
 
 CREATE NONCLUSTERED INDEX IX_Catalogo_Categoria_Activo_Cobertura
@@ -181,11 +183,14 @@ GO
 -- ==========================================
 -- ESCENARIO 1: Consulta Sin Índice
 -- ==========================================
+CHECKPOINT;
+DBCC DROPCLEANBUFFERS;
+GO
+
 SELECT 
-p.id_persona, p.nombre, p.apellido, p.telefono, c.fecha_alta
+p.id_persona, p.nombre, p.apellido, p.telefono
 FROM Persona p
-INNER JOIN Cliente c ON p.id_persona = c.id_persona_cliente
-WHERE p.apellido = 'Gomez';
+WHERE apellido = 'Gomez';
 GO
 
 -- ==========================================
@@ -194,16 +199,18 @@ GO
 CREATE NONCLUSTERED INDEX IX_Persona_Apellido ON Persona(apellido);
 GO
 
-SELECT p.id_persona, p.nombre, p.apellido, p.telefono, c.fecha_alta
+CHECKPOINT;
+DBCC DROPCLEANBUFFERS;
+GO
+
+SELECT p.id_persona, p.nombre, p.apellido, p.telefono
 FROM Persona p
-INNER JOIN Cliente c ON p.id_persona = c.id_persona_cliente
-WHERE p.apellido <> 'Gomez';
+WHERE p.apellido = 'Gomez';
 GO
 
 -- Eliminar el indice
 DROP INDEX IX_Persona_Apellido 
 ON Persona;
-GO
 
 -- ==========================================
 -- ESCENARIO 3: Con Índice de Cobertura (INCLUDE)
@@ -213,9 +220,19 @@ ON Persona(apellido)
 INCLUDE (nombre, telefono);
 GO
 
+CHECKPOINT;
+DBCC DROPCLEANBUFFERS;
+GO
+
 -- Repetir la consulta con indice de Cobertura
-SELECT p.id_persona, p.nombre, p.apellido, p.telefono, c.fecha_alta
+SELECT p.id_persona, p.nombre, p.apellido, p.telefono
 FROM Persona p
-INNER JOIN Cliente c ON p.id_persona = c.id_persona_cliente
 WHERE p.apellido = 'Gomez';
+GO
+
+DROP INDEX IX_Persona_Apellido_Cobertura
+ON Persona;
+
+SET STATISTICS TIME OFF;
+SET STATISTICS IO OFF;
 GO

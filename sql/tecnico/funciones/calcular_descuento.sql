@@ -1,6 +1,11 @@
 USE Proyecto_equipo5;
 GO
 
+CREATE TYPE dbo.ListaProductosTipo AS TABLE (
+    id_producto INT NOT NULL,
+    cantidad INT NOT NULL CHECK (cantidad > 0)
+);
+
 /*
 ===============================================================================
 Función:         dbo.fn_calcular_descuento
